@@ -19,9 +19,7 @@ import { MqttModule } from 'ngx-mqtt';
     BrowserModule,
     AppRoutingModule,
     MqttModule.forRoot({
-      url: 'wss://a3gfnasqfyjfxz-ats.iot.eu-west-1.amazonaws.com/mqtt',
-      username: 'test',
-      password: 'test'
+      connectOnCreate: false
     })
   ],
   providers: [],

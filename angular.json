@@ -21,7 +21,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": [
-              
+              "mqtt"
             ],
             "outputPath": "dist/senior-application",
             "index": "src/index.html",
