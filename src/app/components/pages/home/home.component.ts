@@ -37,8 +37,4 @@ export class HomeComponent implements OnInit {
     this.mqttService.getShadow();
   }
 
-  send() {
-    this.mqttService.send();
-  }
-
 }

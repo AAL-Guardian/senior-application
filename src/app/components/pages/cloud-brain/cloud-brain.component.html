@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <form [formGroup]="questionForm">
+        <input formControlName="question" />
+        <button (click)="addAnswer()">+</button>
+        <ul formArrayName="answers">
+          <li *ngFor="let ansewer of answers.controls; let i = index">
+            <input [formControlName]="i" />
+          </li>
+        </ul>
+        <button (click)="send()">send</button>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12" *ngFor="let message of messageHistory">
+      {{ message | json }}
+    </div>
+  </div>
+</div>

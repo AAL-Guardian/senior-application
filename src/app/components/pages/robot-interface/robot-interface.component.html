@@ -1,0 +1,5 @@
+<div>{{ sub.closed | json }}</div>
+<div *ngIf="question">{{ question }}</div>
+<audio (ended)="audioUrl = null" autoplay class="audioTag" *ngIf="audioUrl">
+  <source controls [src]="audioUrl" />
+</audio>

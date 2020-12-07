@@ -1,1 +1,22 @@
-<p>installation works!</p>
+<div class="container">
+  <div class="full-row row justify-content-center align-items-center">
+    <div class="col-lg-4 col-md-8 col-12 align-self-center">
+      <div class="card p-2">
+        <img src="/assets/img/Logo_final-wide-next-300x96.png" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title text-center">Installazione</h5>
+          <hr />
+          <form [formGroup]="installationForm" (submit)="submit()">
+            <div class="form-group">
+              <label for="robotCode">Robot Code</label>
+              <input type="text" maxlength="11" formControlName="robotCode" id="robotCode"
+                class="form-control" autocomplete="off" aria-describedby="robotCodeHelp">
+              <small id="robotCodeHelp" class="form-text text-muted">Insert the code for the robot in your house.</small>
+            </div>
+            <button type="submit" [disabled]="!installationForm.valid" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
