@@ -40,6 +40,7 @@ export class CloudBrainComponent implements OnInit {
 
   send() {
     this.mqtt.sendQuestion(this.questionForm.value)
-    this.questionForm.reset();
+    this.questionForm.controls.question.reset();
+    this.questionForm.controls.answers = new FormArray([]);
   }
 }

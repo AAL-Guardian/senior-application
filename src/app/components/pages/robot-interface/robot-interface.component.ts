@@ -16,6 +16,7 @@ export class RobotInterfaceComponent implements OnInit {
 
   audioUrl: string;
   question: string;
+  answerSub: Subscription;
 
   constructor(
     private mqtt: MqttService,
@@ -36,9 +37,9 @@ export class RobotInterfaceComponent implements OnInit {
         res => {
           this.audioUrl = res.audioUrl;
           this.question = res.question;
-          const answerSub = this.mqtt.listenAnswers().subscribe(
+          this.answerSub = this.mqtt.listenAnswers().subscribe(
             answer => {
-              answerSub.unsubscribe();
+              this.answerSub.unsubscribe();
               this.speakerService.getAudioUrl('Thank You for answering', 'en').subscribe(
                 audio => {
                   this.audioUrl = audio;
@@ -47,18 +48,23 @@ export class RobotInterfaceComponent implements OnInit {
               this.question = undefined;
             }
           );
-          timer(30 * 1000).subscribe(
-            () => {
-              answerSub.unsubscribe();
-              this.speakerService.getAudioUrl("Seems like you don't want to answer", 'en').subscribe(
-                audio => {
-                  this.audioUrl = audio;
-                }
-              );
-              this.question = undefined;
-            }
-          )
+          
         }
       )
+  }
+
+  ended() {
+    this.audioUrl = null;
+    timer(30 * 1000).subscribe(
+      () => {
+        this.answerSub.unsubscribe();
+        this.speakerService.getAudioUrl("Seems like you don't want to answer", 'en').subscribe(
+          audio => {
+            this.audioUrl = audio;
+          }
+        );
+        this.question = undefined;
+      }
+    )
   }
 }
