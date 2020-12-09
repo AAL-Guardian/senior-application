@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { MqttService } from 'src/app/services/mqtt.service';
 
 @Component({
@@ -8,11 +9,14 @@ import { MqttService } from 'src/app/services/mqtt.service';
 })
 export class WrapperComponent implements OnInit {
 
+  status: Observable<string>;
+
   constructor(
     private mqtt: MqttService
   ) { }
 
   ngOnInit(): void {
+    this.status = this.mqtt.status();
     this.mqtt.connect();
   }
 

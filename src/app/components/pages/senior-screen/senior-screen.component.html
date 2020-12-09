@@ -1,1 +1,17 @@
-<p>senior-screen works!</p>
+<div class="senior-wrapper" style="background-image: url({{img}})">
+  <div class="row" *ngIf="question">
+    <div class="col-12 text-center">
+      <h1>{{ question.question }}</h1>
+    </div>
+    <div class="col" *ngFor="let answer of question.answers">
+      <div class="circle" (click)="sendAnswer(answer)">
+        <p>{{ answer }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="thankyou">
+    <div class="col text-center">
+      <h1>Thank you</h1>
+    </div>
+  </div>
+</div>

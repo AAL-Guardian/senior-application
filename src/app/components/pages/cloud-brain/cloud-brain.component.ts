@@ -15,6 +15,7 @@ export class CloudBrainComponent implements OnInit {
 
   questionForm = new FormGroup({
     question: new FormControl(),
+    language: new FormControl('en'),
     answers: new FormArray([])
   });
   constructor(
@@ -39,5 +40,6 @@ export class CloudBrainComponent implements OnInit {
 
   send() {
     this.mqtt.sendQuestion(this.questionForm.value)
+    this.questionForm.reset();
   }
 }

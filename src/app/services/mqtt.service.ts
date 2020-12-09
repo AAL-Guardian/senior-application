@@ -19,7 +19,7 @@ export class MqttService {
       () => {
         this.connected = true;
         if (!environment.production) {
-          this.message().subscribe(log => console.debug(log));
+          this.message().subscribe(log => console.log(log));
         }
       }
     );
@@ -37,7 +37,7 @@ export class MqttService {
         path: '/mqtt?x-amz-customauthorizer-name=GuardianAuthorizer',
         hostname: data.endpoint,
         clientId: data.clientId,
-        reconnectPeriod: 0,
+        reconnectPeriod: 1000 * 5,
         transformWsUrl(url: string, options: IMqttServiceOptions, client: IMqttClient) {
           options.username = data.token;
           return url;
@@ -87,17 +87,25 @@ export class MqttService {
     )
   }
 
+  listenAnswers() {
+    this.connect();
+    const data = this.installationService.getData();
+    return this.rawService.observe(`${data.robotTopic}/answer`).pipe(
+      map(res => JSON.parse(res.payload.toString()) as string),
+      tap(res => console.log(res))
+    )
+  }
+
   getShadow() {
     this.connect();
-    this.rawService.publish('$aws/things/test2created/shadow/get', '').subscribe();
+    const data = this.installationService.getData();
+    this.rawService.publish(`$aws/things/${data.robotTopic}/shadow/get`, '').subscribe();
   }
 
   listenShadow() {
     this.connect();
-    this.rawService.observe('$aws/things/test2created/shadow').subscribe(
-      res => console.log(res),
-      err => console.error(err)
-    )
+    const data = this.installationService.getData();
+    return this.rawService.observe(`$aws/things/${data.robotTopic}/shadow`)
   }
 
   message() {
@@ -120,5 +128,9 @@ export class MqttService {
 
   sendQuestion(data: Question) {
     return this.send('question', data);
+  }
+
+  sendAnswer(text: string) {
+    return this.send('answer', text);
   }
 }

@@ -12,8 +12,9 @@ export class SpeakerService {
     private http: HttpClient
   ) { }
 
-  getAudioUrl(text: string) {
+  getAudioUrl(text: string, language: string) {
     return this.http.post(`${environment.apiEndpoint}/synthetize`, {
+      language,
       text
     }).pipe(
       map((res: any) => res.url as string)

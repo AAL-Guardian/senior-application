@@ -4,7 +4,8 @@ import { MqttService } from 'src/app/services/mqtt.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { map, switchMap } from 'rxjs/operators';
 import { SpeakerService } from 'src/app/services/speaker.service';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, timer } from 'rxjs';
+import { MqttConnectionState } from 'ngx-mqtt';
 @Component({
   selector: 'app-robot-interface',
   templateUrl: './robot-interface.component.html',
@@ -13,7 +14,6 @@ import { Observable, Subscription } from 'rxjs';
 @UntilDestroy()
 export class RobotInterfaceComponent implements OnInit {
 
-  sub: Subscription;
   audioUrl: string;
   question: string;
 
@@ -23,10 +23,10 @@ export class RobotInterfaceComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.sub = this.mqtt.listenQuestions()
+    this.mqtt.listenQuestions()
       .pipe(
         untilDestroyed(this),
-        switchMap(question => this.speakerService.getAudioUrl(question.question).pipe(
+        switchMap(question => this.speakerService.getAudioUrl(question.question, question.language).pipe(
           map(audioUrl => ({
             audioUrl,
             question: question.question
@@ -36,6 +36,28 @@ export class RobotInterfaceComponent implements OnInit {
         res => {
           this.audioUrl = res.audioUrl;
           this.question = res.question;
+          const answerSub = this.mqtt.listenAnswers().subscribe(
+            answer => {
+              answerSub.unsubscribe();
+              this.speakerService.getAudioUrl('Thank You for answering', 'en').subscribe(
+                audio => {
+                  this.audioUrl = audio;
+                }
+              );
+              this.question = undefined;
+            }
+          );
+          timer(30 * 1000).subscribe(
+            () => {
+              answerSub.unsubscribe();
+              this.speakerService.getAudioUrl("Seems like you don't want to answer", 'en').subscribe(
+                audio => {
+                  this.audioUrl = audio;
+                }
+              );
+              this.question = undefined;
+            }
+          )
         }
       )
   }
