@@ -10,6 +10,7 @@ import { MqttService } from 'src/app/services/mqtt.service';
 export class WrapperComponent implements OnInit {
 
   status: Observable<string>;
+  expanded = false;
 
   constructor(
     private mqtt: MqttService
