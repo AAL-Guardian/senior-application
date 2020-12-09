@@ -53,6 +53,7 @@ jobs:
       uses: reggionick/s3-deploy@v3
       with:
         folder: "."
+        bucket-region: eu-west-1
         bucket: guardian-frontend-dev
         # dist-id: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
         invalidation: /
