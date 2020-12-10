@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { map } from 'rxjs/operators';
+import { Question } from 'src/app/models/question.model';
 import { MqttService } from 'src/app/services/mqtt.service';
+import { SpeakerService } from 'src/app/services/speaker.service';
 
 @Component({
   selector: 'app-cloud-brain',
@@ -19,7 +22,8 @@ export class CloudBrainComponent implements OnInit {
     answers: new FormArray([])
   });
   constructor(
-    private mqtt: MqttService
+    private mqtt: MqttService,
+    private speakerService: SpeakerService
   ) { }
 
   ngOnInit(): void {
@@ -39,8 +43,20 @@ export class CloudBrainComponent implements OnInit {
   }
 
   send() {
-    this.mqtt.sendQuestion(this.questionForm.value)
-    this.questionForm.controls.question.reset();
-    this.questionForm.controls.answers = new FormArray([]);
+    const question = this.questionForm.value as Question;
+    
+    this.speakerService.getAudioUrl(question.question, question.language).pipe(
+      map(audioUrl => ({
+        ...question,
+        audioUrl
+      })
+    )).subscribe(
+      question => {
+        this.mqtt.sendQuestion(question);
+
+        this.questionForm.controls.question.reset();
+        this.questionForm.controls.answers = new FormArray([]);
+      }
+    )
   }
 }

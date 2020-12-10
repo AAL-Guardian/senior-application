@@ -6,6 +6,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { SpeakerService } from 'src/app/services/speaker.service';
 import { Observable, Subscription, timer } from 'rxjs';
 import { MqttConnectionState } from 'ngx-mqtt';
+import { Question } from 'src/app/models/question.model';
 @Component({
   selector: 'app-robot-interface',
   templateUrl: './robot-interface.component.html',
@@ -27,16 +28,16 @@ export class RobotInterfaceComponent implements OnInit {
     this.mqtt.listenQuestions()
       .pipe(
         untilDestroyed(this),
-        switchMap(question => this.speakerService.getAudioUrl(question.question, question.language).pipe(
-          map(audioUrl => ({
-            audioUrl,
-            question: question.question
-          }))
-        ))
+        // switchMap(question => this.speakerService.getAudioUrl(question.question, question.language).pipe(
+        //   map(audioUrl => ({
+        //     audioUrl,
+        //     question: question.question
+        //   }))
+        // ))
       ).subscribe(
-        res => {
-          this.audioUrl = res.audioUrl;
-          this.question = res.question;
+        (question: Question)  => {
+          this.audioUrl = question.audioUrl;
+          this.question = question.question;
           this.answerSub = this.mqtt.listenAnswers().subscribe(
             answer => {
               this.answerSub.unsubscribe();
