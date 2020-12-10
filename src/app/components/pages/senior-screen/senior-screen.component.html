@@ -1,17 +1,26 @@
-<div class="senior-wrapper" style="background-image: url({{img}})">
-  <div class="row" *ngIf="question">
-    <div class="col-12 text-center">
-      <h1>{{ question.question }}</h1>
-    </div>
-    <div class="col" *ngFor="let answer of question.answers">
-      <div class="circle" (click)="sendAnswer(answer)">
-        <p>{{ answer }}</p>
-      </div>
-    </div>
+<div class="senior-wrapper" style="background-image: url( {{ img }} )">
+  <div *ngIf="question" class="container">
+    <section class="text-center p-5">
+      <h1 class="px-2 py-1 bg-light rounded-pill display-4 font-weight-bold">
+        {{ question.question }}
+      </h1>
+    </section>
+
+    <section class="d-flex flex-row flex-wrap justify-content-center">
+      <button
+        (click)="sendAnswer(answer)"
+        *ngFor="let answer of question.answers"
+        class="answer btn btn-success p-5 m-2 col-md-3 rounded-circle"
+      >
+        {{ answer }}
+      </button>
+    </section>
   </div>
-  <div class="row" *ngIf="thankyou">
-    <div class="col text-center">
-      <h1>Thank you</h1>
-    </div>
+  <div *ngIf="thankyou" class="container">
+    <section class="text-center p-5">
+      <h1 class="px-2 py-1 bg-light rounded-pill display-4 font-weight-bold">
+        Thank you
+      </h1>
+    </section>
   </div>
 </div>

@@ -1,15 +1,11 @@
-.circle {
-  width: 100%;
-  border-radius: 50%;
-  font-size: 20px;
-  color: #fff;
-  text-align: center;
-  background: rgb(77, 66, 179);
-  &::after {
-    content: "";
-    display: block;
-    padding-bottom: 100%;
-  }
+.answer {
+  height: 270px;
+  background: radial-gradient(
+    circle,
+    rgba(0, 255, 128, 1) 0%,
+    rgba(44, 200, 143, 1) 60%,
+    rgba(14, 79, 55, 1) 100%
+  );
 }
 
 .senior-wrapper {
