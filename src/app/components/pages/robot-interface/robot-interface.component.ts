@@ -16,6 +16,7 @@ import { Question } from 'src/app/models/question.model';
 export class RobotInterfaceComponent implements OnInit {
 
   audioUrl: string;
+  feedbackUrl: string;
   question: string;
   answerSub: Subscription;
 
@@ -43,7 +44,7 @@ export class RobotInterfaceComponent implements OnInit {
               this.answerSub.unsubscribe();
               this.speakerService.getAudioUrl('Thank You for answering', 'en').subscribe(
                 audio => {
-                  this.audioUrl = audio;
+                  this.feedbackUrl = audio;
                 }
               );
               this.question = undefined;
@@ -61,7 +62,7 @@ export class RobotInterfaceComponent implements OnInit {
         this.answerSub.unsubscribe();
         this.speakerService.getAudioUrl("Seems like you don't want to answer", 'en').subscribe(
           audio => {
-            this.audioUrl = audio;
+            this.feedbackUrl = audio;
           }
         );
         this.question = undefined;

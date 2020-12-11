@@ -3,9 +3,12 @@
     <div class="col-12">
       <div *ngIf="question">{{ question }}</div>
       <audio (ended)="ended()" autoplay class="audioTag" *ngIf="audioUrl">
-        <source controls [src]="audioUrl" />
+        <source [src]="audioUrl" />
       </audio>
     </div>
   </div>
+  <audio *ngIf="feedbackUrl" autoplay class="audioTag" >
+    <source [src]="feedbackUrl" />
+  </audio>
 </div>
 

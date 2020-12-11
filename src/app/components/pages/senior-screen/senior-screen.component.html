@@ -1,4 +1,4 @@
-<div class="senior-wrapper" style="background-image: url( {{ img }} )">
+<div class="senior-wrapper" [style.background-image]="'url(' + img + ')'">
   <div *ngIf="question" class="container">
     <section class="text-center p-5">
       <h1 class="px-2 py-1 bg-light rounded-pill display-4 font-weight-bold">
