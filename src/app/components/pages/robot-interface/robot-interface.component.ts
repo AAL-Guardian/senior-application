@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { MqttService } from 'src/app/services/mqtt.service';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
-import { map, switchMap } from 'rxjs/operators';
-import { SpeakerService } from 'src/app/services/speaker.service';
-import { Observable, Subscription, timer } from 'rxjs';
-import { MqttConnectionState } from 'ngx-mqtt';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Subscription, timer } from 'rxjs';
 import { Question } from 'src/app/models/question.model';
+import { MqttService } from 'src/app/services/mqtt.service';
+import { SpeakerService } from 'src/app/services/speaker.service';
+
 @Component({
   selector: 'app-robot-interface',
   templateUrl: './robot-interface.component.html',
@@ -39,7 +37,7 @@ export class RobotInterfaceComponent implements OnInit {
         (question: Question)  => {
           this.audioUrl = question.audioUrl;
           this.question = question.question;
-          this.answerSub = this.mqtt.listenAnswers().subscribe(
+          this.answerSub = this.mqtt.listenAnswers().pipe(untilDestroyed(this)).subscribe(
             answer => {
               this.answerSub.unsubscribe();
               this.speakerService.getAudioUrl('Thank You for answering', 'en').subscribe(
@@ -57,7 +55,7 @@ export class RobotInterfaceComponent implements OnInit {
 
   ended() {
     this.audioUrl = null;
-    timer(30 * 1000).subscribe(
+    timer(20 * 1000).pipe(untilDestroyed(this)).subscribe(
       () => {
         this.answerSub.unsubscribe();
         this.speakerService.getAudioUrl("Seems like you don't want to answer", 'en').subscribe(
