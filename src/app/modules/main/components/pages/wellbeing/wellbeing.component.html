@@ -1,0 +1,55 @@
+<app-wrapper [back]="back">
+  <ng-container [ngSwitch]="step">
+    <ng-template [ngSwitchCase]="0">
+      <app-wrapper-title>
+        Hello Adam, how are you feeling today?
+      </app-wrapper-title>
+      <app-wrapper-body>
+        <div
+          class="col-3 mt-3"
+          *ngFor="let action of stepsActions[step]; let i = index"
+        >
+          <app-selectable-button
+            [(selected)]="action.selected"
+            (selectedChange)="changed(i, stepsActions[step])"
+            [text]="action.text"
+            [icon]="action.icon"
+          ></app-selectable-button>
+        </div>
+      </app-wrapper-body>
+      <app-wrapper-footer>
+        <div class="button_app" (click)="forward(step)">OK</div>
+      </app-wrapper-footer>
+    </ng-template>
+    <ng-template [ngSwitchCase]="1">
+      <app-wrapper-title>
+        What is or are the reason(s) you are not feeling well?
+      </app-wrapper-title>
+      <app-wrapper-body>
+        <div
+          class="col-3 mt-3"
+          *ngFor="let action of stepsActions[step]; let i = index"
+        >
+          <app-selectable-button
+            [(selected)]="action.selected"
+            [text]="action.text"
+            [icon]="action.icon"
+          ></app-selectable-button>
+        </div>
+      </app-wrapper-body>
+      <app-wrapper-footer>
+        <div class="button_app" (click)="forward(step)">
+          This is why I am not feeling well
+        </div>
+      </app-wrapper-footer>
+    </ng-template>
+    <ng-template [ngSwitchCase]="2">
+      <app-wrapper-title>
+        Thanks for sharing how you feel. Hopefully you feel better soon.
+      </app-wrapper-title>
+      <app-wrapper-footer>
+        <div class="button_app" (click)="back()">OK</div>
+      </app-wrapper-footer>
+    </ng-template>
+  </ng-container>
+</app-wrapper>

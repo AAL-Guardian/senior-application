@@ -1,0 +1,10 @@
+<div
+  class="button_app select_mode light_bg"
+  [class.with_image]="icon"
+  [class.selected]="selected"
+  (click)="selected = !selected; selectedChange.emit(selected)"
+>
+  <img *ngIf="icon" [src]="icon" />
+  <div *ngIf="text" class="label_button">{{ text }}</div>
+  <!-- <span *ngIf="text" class="myrow">{{ text }}</span> -->
+</div>

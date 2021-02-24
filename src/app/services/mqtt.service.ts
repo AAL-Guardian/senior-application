@@ -34,7 +34,6 @@ export class MqttService {
       const data = this.installationService.getData();
       this.rawService.connect({
         // host: data.endpoint,
-        port: 433,
         protocol: 'wss',
         path: '/mqtt?x-amz-customauthorizer-name=GuardianAuthorizer',
         hostname: data.endpoint,

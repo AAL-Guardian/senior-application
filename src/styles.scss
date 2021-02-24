@@ -1,4 +1,305 @@
 /* You can add global styles to this file, and also import other style files */
-@import 'variables';
+@import "variables";
 
-@import '../node_modules/bootstrap/scss/bootstrap.scss';
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+@import "../node_modules/@fortawesome/fontawesome-free/css/all.css";
+/* CSS Document */
+/*IMPORT FONTS*/
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,500&display=swap");
+/*GENERAL*/
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f2f2f2;
+  font-size: 16px;
+  line-height: 16px;
+  font-family: "Roboto";
+  font-weight: 400;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+}
+
+.position-fixed {
+  position: fixed;
+}
+
+.fixed-top {
+  top: 0;
+}
+
+.button_app {
+  padding: 20px;
+  border-radius: 10px;
+  display: inline-block;
+  background-color: #4f4f4f;
+  color: #fff;
+  text-transform: uppercase;
+  max-width: 240px;
+  width: 100%;
+  text-align: center;
+  border: 0;
+  font-size: 1rem;
+  line-height: 1.2rem;
+
+  &.light_bg {
+    background-color: #f2f2f2;
+    color: #000000;
+  }
+
+  &.back {
+    width: auto;
+    background-color: #00a34c;
+    padding: 25px 25px 25px 60px;
+    color: #fff;
+    border-radius: 0;
+    z-index: 2;
+    position: relative;
+    border-right: 1px solid #fff;
+    font-size: 1.2rem;
+    font-weight: 700;
+
+    span {
+      font-size: 2.6rem;
+      line-height: 2.6rem;
+      font-weight: 700;
+      position: absolute;
+      top: 13px;
+      left: 20px;
+    }
+  }
+
+  &.with_image {
+    img {
+      display: block;
+      margin: 0 auto;
+      max-height: 150px;
+      width: auto;
+      max-width: 100%;
+      margin-bottom: 25px;
+    }
+
+    .label_button {
+      font-size: 1.8rem;
+      text-transform: none;
+      line-height: 2rem;
+    }
+  }
+
+  &.select_mode {
+    font-size: 1.6rem;
+    text-transform: none;
+    line-height: 2.4rem;
+    // display: flex;
+    height: 100%;
+    align-items: center;
+    width: 100%;
+    text-align: center;
+    min-height: 100px;
+
+    /* flex-flow: unset; */
+
+    &.selected {
+      border: 5px solid #00b454;
+      color: #00b454;
+      font-weight: 700;
+    }
+  }
+}
+
+.myrow {
+  display: inline-block;
+  width: 100%;
+}
+
+.main_title_app {
+  font-size: 2.6rem;
+  line-height: 3rem;
+  color: #000000;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
+.sub_title_app {
+  font-size: 1.8rem;
+  line-height: 2.4rem;
+  color: #000000;
+  font-weight: 400;
+  margin-bottom: 15px;
+}
+
+.with_margin_top_bottom {
+  margin: 40px 0;
+}
+
+.with_margin_top {
+  margin-top: 40px;
+}
+
+.with_margin_bottom {
+  margin-bottom: 40px;
+}
+
+.extra_margin_top {
+  margin-top: 80px;
+}
+
+/*HEADER*/
+
+.topbar {
+  background-color: #00b454;
+  width: 100%;
+  height: 69px;
+}
+
+.time_header {
+  position: absolute;
+  text-align: center;
+  z-index: 1;
+  color: #fff;
+  top: 0;
+  left: 0;
+  width: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  font-weight: 500;
+}
+
+.space {
+  min-height: 200vh;
+}
+
+/*LAYOUT*/
+
+.main_box {
+  margin-top: 15vh;
+  background-color: #fff;
+  min-height: 50vh;
+  padding: 60px 60px 80px;
+
+  &::before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: -50px;
+    top: 60px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 30px 50px 30px 0;
+    border-color: transparent #ffffff transparent transparent;
+    border-radius: 5px;
+  }
+}
+
+/*COMPONENT*/
+/*smaple list*/
+
+.sample_list {
+  border-top: 1px solid #e7e7e7;
+
+  .single_list {
+    border-bottom: 1px solid #e7e7e7;
+    padding: 15px 40px 15px 0;
+    color: #000;
+    font-size: 1rem;
+    line-height: 1.4rem;
+    display: flex;
+
+    .name_list {
+      width: 80%;
+      display: flex;
+      align-self: center;
+      font-size: 1.4rem;
+      line-height: 1.6rem;
+    }
+
+    .action_list {
+      width: 20%;
+      display: flex;
+
+      .response_list {
+        width: 50%;
+        text-align: center;
+
+        .fa {
+          border-radius: 5px;
+          -webkit-border-radius: 5px;
+          -moz-border-radius: 5px;
+          background-color: #4f4f4f;
+          color: #fff;
+          padding: 0 5px;
+          min-width: 40px;
+          text-align: center;
+          font-size: 2rem;
+          line-height: 2rem;
+          -webkit-text-stroke-width: 3px;
+          -webkit-text-stroke-color: #4f4f4f;
+        }
+      }
+    }
+  }
+}
+
+/*button bottom page*/
+
+.action_button {
+  text-align: center;
+
+  .button_app {
+    margin: 0 15px 15px;
+    font-size: 1.2rem;
+    line-height: 1.4rem;
+  }
+}
+
+/*RANGE SLIDER*/
+
+.box_slider_app {
+  display: flex;
+
+  /* align-content: center; */
+  align-items: center;
+}
+
+.icon_slider_app {
+  width: 90px;
+  padding-right: 10px;
+
+  .button_app {
+    font-size: 4rem;
+    line-height: 4rem;
+    padding: 5px;
+  }
+}
+
+.content_slider_app {
+  width: calc(100% - 90px);
+}
+
+.slider_app {
+  &.ui-widget.ui-widget-content {
+    border: 0;
+    background-color: #c4c4c4;
+  }
+
+  .ui-slider-handle.ui-state-default {
+    height: 50px;
+    width: 18px;
+    border: 0;
+    background-color: #4f4f4f;
+    top: -20px;
+  }
+
+  &.ui-slider .ui-slider-range {
+    background-color: #4f4f4f;
+  }
+}

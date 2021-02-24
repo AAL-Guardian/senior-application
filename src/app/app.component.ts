@@ -9,7 +9,7 @@ import { first } from 'rxjs/operators';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'senior-application';
+  title = 'Guardian Senior Application';
   constructor(
     private updates: SwUpdate,
     private appRef: ApplicationRef) {
