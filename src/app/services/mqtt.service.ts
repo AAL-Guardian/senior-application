@@ -4,6 +4,7 @@ import { map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Question } from '../models/question.model';
 import { InstallationService } from './installation.service';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -32,7 +33,8 @@ export class MqttService {
     if (!this.connected) {
       const data = this.installationService.getData();
       this.rawService.connect({
-        host: data.endpoint,
+        // host: data.endpoint,
+        port: 433,
         protocol: 'wss',
         path: '/mqtt?x-amz-customauthorizer-name=GuardianAuthorizer',
         hostname: data.endpoint,
