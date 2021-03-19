@@ -6,27 +6,37 @@ import { HomeComponent } from './components/pages/home/home.component';
 import { LayoutModule } from '../layout/layout.module';
 import { WellbeingComponent } from './components/pages/wellbeing/wellbeing.component';
 import { MainComponent } from './main.component';
+import { ReportPageComponent } from './components/pages/report-page/report-page.component';
 
 const routes = [
   {
     path: '',
-    component: HomeComponent
+    component: MainComponent,
+    children: [
+      {
+        path: '',
+        component: HomeComponent
+      },
+      {
+        path: 'report',
+        component: ReportPageComponent
+      },
+      {
+        path: 'wellbeing',
+        component: WellbeingComponent
+      }
+    ]
   },
-  {
-    path: 'wellbeing',
-    component: WellbeingComponent
-  }
+  
 ]
 
 
 @NgModule({
-  bootstrap: [
-    MainComponent
-  ],
   declarations: [
     MainComponent,
     HomeComponent,
-    WellbeingComponent
+    WellbeingComponent,
+    ReportPageComponent,
   ],
   imports: [
     CommonModule,

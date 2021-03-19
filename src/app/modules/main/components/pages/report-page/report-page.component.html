@@ -1,0 +1,30 @@
+<app-wrapper [back]="back">
+  <ng-template [ngIf]="currentQuestion">
+    <app-wrapper-title>
+      {{ currentQuestion?.description }}
+    </app-wrapper-title>
+    <app-wrapper-body>
+      <div
+        class="col-3 mt-3"
+        *ngFor="let option of currentQuestion?.options; let i = index"
+      >
+        <app-selectable-button
+          [(selected)]="option.selected"
+          [text]="option.description"
+        ></app-selectable-button>
+      </div>
+      <!-- [icon]="option?.icon" -->
+    </app-wrapper-body>
+    <app-wrapper-footer>
+      <div class="button_app" (click)="next()">OK</div>
+    </app-wrapper-footer>
+  </ng-template>
+  <ng-template [ngIf]="confirmation">
+    <app-wrapper-title>
+      {{ confirmation }}
+    </app-wrapper-title>
+    <app-wrapper-footer>
+      <div class="button_app" (click)="end()">Send</div>
+    </app-wrapper-footer>
+  </ng-template>
+</app-wrapper>

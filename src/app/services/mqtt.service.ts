@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { IMqttClient, IMqttServiceOptions, MqttConnectionState, MqttService as RawService } from 'ngx-mqtt'
 import { map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Question } from '../models/question.model';
+import { ReportRequest } from '../models/report-request.model';
 import { InstallationService } from './installation.service';
 
 @Injectable({
@@ -14,7 +16,8 @@ export class MqttService {
 
   constructor(
     private rawService: RawService,
-    private installationService: InstallationService
+    private installationService: InstallationService,
+    private router: Router,
   ) {
     const onConnect = this.rawService.onConnect.subscribe(
       () => {
@@ -33,9 +36,8 @@ export class MqttService {
     if (!this.connected) {
       const data = this.installationService.getData();
       this.rawService.connect({
-        // host: data.endpoint,
         protocol: 'wss',
-        path: '/mqtt?x-amz-customauthorizer-name=GuardianAuthorizer',
+        path: '/mqtt?x-amz-customauthorizer-name=GuardianAuthorizerDev',
         hostname: data.endpoint,
         clientId: data.clientId,
         reconnectPeriod: 1000 * 5,
@@ -79,6 +81,11 @@ export class MqttService {
     )
   }
 
+  
+  
+  /**
+   * @deprecated
+   */
   listenQuestions() {
     this.connect();
     const data = this.installationService.getData();
@@ -88,6 +95,9 @@ export class MqttService {
     )
   }
 
+  /**
+   * @deprecated
+   */
   listenAnswers() {
     this.connect();
     const data = this.installationService.getData();
@@ -115,6 +125,12 @@ export class MqttService {
         return value.topic + '-' + index.toFixed() + ':' + value.payload.toString()
       })
     );
+  }
+
+  listen(topic: string) {
+    this.connect();
+    const { robotTopic } = this.installationService.getData();
+    return this.rawService.observe(`${robotTopic}/${topic}`)
   }
 
   send(topic: string, data: any) {

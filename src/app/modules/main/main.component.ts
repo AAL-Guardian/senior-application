@@ -1,22 +1,35 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Observable, Subject } from 'rxjs';
+import { MqttService } from 'src/app/services/mqtt.service';
+import { ReportService } from 'src/app/services/report.service';
+
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })
+@UntilDestroy()
 export class MainComponent implements OnInit {
 
-
-  userActivity;
+  userActivity: any;
   userInactive: Subject<any> = new Subject();
+  mqttStatus: Observable<string>;
 
-  constructor() {  }
+  constructor(
+    private mqttService: MqttService,
+    private reportService: ReportService
+  ) { }
 
   ngOnInit(): void {
+    this.mqttStatus = this.mqttService.status();
     this.setTimeout();
     this.userInactive.subscribe(() => console.log('user has been inactive for 3s'));
+    this.mqttService.connect();
+    this.reportService.listenReportRequests().pipe(
+      untilDestroyed(this)
+    ).subscribe();
   }
 
   setTimeout() {

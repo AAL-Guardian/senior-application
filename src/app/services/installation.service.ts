@@ -19,6 +19,7 @@ export class InstallationService {
       clientId
     }).pipe(
       tap((res: Installation) => {
+        localStorage.setItem('robotCode', JSON.stringify(robotCode))
         localStorage.setItem('installation', JSON.stringify(res))
       })
     )
