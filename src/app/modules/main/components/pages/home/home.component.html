@@ -1,11 +1,11 @@
 <app-wrapper [hideBack]="true">
   <app-wrapper-title>Hello Adam, what would you like to do?</app-wrapper-title>
   <app-wrapper-body>
-    <div class="col-3 mt-3" *ngFor="let action of actions; let i = index">
+    <div class="col-3 mt-3" *ngFor="let action of list; let i = index">
       <app-selectable-button
         [(selected)]="action.selected"
         (selectedChange)="changed(i)"
-        [text]="action.text"
+        [text]="action.description"
       ></app-selectable-button>
     </div>
   </app-wrapper-body>

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ReportRequest } from 'src/app/models/report-request.model';
+import { ReportType } from 'src/app/models/report-type.model';
+import { ReportService } from 'src/app/services/report.service';
 
 @Component({
   selector: 'app-home',
@@ -8,52 +11,27 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  actions = [
-    {
-      text: "I want to report my medication intake",
-    },
-    {
-      text: "I want to report my sleep quality",
-    },
-    {
-      text: "I want to report my meal or drink intake",
-    },
-    {
-      text: "I want to report my wellbeing",
-      url: 'wellbeing'
-    },
-    {
-      text: "I want to see my appointments of today",
-    },
-    {
-      text: "I want to report my medication intake",
-    },
-    {
-      text: "I want to change the volume of Misty",
-    },
-  ] as {
-    text: string,
-    selected?: boolean;
-    url?: string;
-  }[];
+  list: ReportType[];
 
   constructor(
-    protected router: Router
+    protected router: Router,
+    protected reportService: ReportService
   ) { }
 
   ngOnInit(): void {
+    this.reportService.listReportTypes().subscribe(
+      list => this.list = list
+    )
   }
 
   changed(index: number) {
-    if (this.actions[index].selected) {
-      this.actions.filter((one, i) => i !== index).forEach(one => one.selected = false)
+    if (this.list[index].selected) {
+      this.list.filter((one, i) => i !== index).forEach(one => one.selected = false)
     }
   }
 
   send() {
-    const selected = this.actions.find(one => one.selected);
-    if(selected && selected.url) {
-      this.router.navigateByUrl(selected.url);
-    }
+    const selected = this.list.find(one => one.selected);
+    this.reportService.start({ report_type_id: selected.id } as ReportRequest)
   }
 }

@@ -32,6 +32,10 @@ export class ReportService {
     )
   }
 
+  listReportTypes() {
+    return this.http.get<ReportType[]>(`${environment.apiEndpoint}/report/list`)
+  }
+
   start(report_request: ReportRequest) {
     this.currentReport = report_request;
     this.router.navigateByUrl('report');

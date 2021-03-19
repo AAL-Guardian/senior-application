@@ -7,4 +7,5 @@ export interface ReportType {
   sort_order: number;
 
   start_question?: ReportQuestion;
+  selected: boolean;
 }
