@@ -1,5 +1,5 @@
 <app-wrapper [hideBack]="true">
-  <app-wrapper-title>Hello Adam, what would you like to do?</app-wrapper-title>
+  <app-wrapper-title>Hello {{ clientName }}, what would you like to do?</app-wrapper-title>
   <app-wrapper-body>
     <div class="col-3 mt-3" *ngFor="let action of list; let i = index">
       <app-selectable-button
@@ -10,6 +10,6 @@
     </div>
   </app-wrapper-body>
   <app-wrapper-footer>
-    <div class="button_app" (click)="send()">OK</div>
+    <div class="button_app" (click)="send()" *ngIf="selected">OK</div>
   </app-wrapper-footer>
 </app-wrapper>

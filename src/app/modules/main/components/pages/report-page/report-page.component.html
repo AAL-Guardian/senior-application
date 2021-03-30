@@ -1,4 +1,4 @@
-<app-wrapper [back]="back">
+<app-wrapper (back)="back()">
   <ng-template [ngIf]="currentQuestion">
     <app-wrapper-title>
       {{ currentQuestion?.description }}
@@ -10,13 +10,13 @@
       >
         <app-selectable-button
           [(selected)]="option.selected"
+          (selectedChange)="changed(i)"
           [text]="option.description"
         ></app-selectable-button>
       </div>
-      <!-- [icon]="option?.icon" -->
     </app-wrapper-body>
     <app-wrapper-footer>
-      <div class="button_app" (click)="next()">OK</div>
+      <button class="button_app" (click)="next()" *ngIf="selected.length > 0">OK</button>
     </app-wrapper-footer>
   </ng-template>
   <ng-template [ngIf]="confirmation">
@@ -24,7 +24,7 @@
       {{ confirmation }}
     </app-wrapper-title>
     <app-wrapper-footer>
-      <div class="button_app" (click)="end()">Send</div>
+      <div class="button_app" (click)="end()" >Send</div>
     </app-wrapper-footer>
   </ng-template>
 </app-wrapper>

@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { ReportQuestionOption } from '../models/report-question-option.model';
 import { ReportQuestion } from '../models/report-question.model';
 import { ReportRequest } from '../models/report-request.model';
 import { ReportType } from '../models/report-type.model';
@@ -41,23 +40,24 @@ export class ReportService {
     this.router.navigateByUrl('report');
   }
 
+  markShownCurrent() {
+    this.sendEvent('showing_report', this.currentReport)
+  }
+
   getReportSetup(reportTypeId: string) {
     return this.http.get<ReportType>(`${environment.apiEndpoint}/report/` + reportTypeId)
   }
 
   showMessage(text: string) {
-    this.sendEvent('showing_message', { text });
+    this.sendEvent('showing_message',  { text });
   }
 
   changeQuestion(reportQuestion: ReportQuestion) {
-    this.sendEvent('showing_question', { question: reportQuestion });
+    this.sendEvent('showing_question', reportQuestion);
   }
 
   sendEvent(type: string, data: any) {
-    this.mqttService.send('senior-app/events', {
-      type,
-      data
-    })
+    this.mqttService.send(`senior-app/events/${type}`, data);
   }
 
   sendAnswers(reportSetup: ReportType, reportRequest?: ReportRequest) {

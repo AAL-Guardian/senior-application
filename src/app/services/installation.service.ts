@@ -27,7 +27,7 @@ export class InstallationService {
 
   getData(): Installation {
     try {
-      const data = localStorage.getItem('installation')
+      const data = localStorage.getItem('installation');
       return JSON.parse(data);
     } catch (e) {
       return undefined

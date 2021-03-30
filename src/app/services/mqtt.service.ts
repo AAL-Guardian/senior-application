@@ -17,7 +17,6 @@ export class MqttService {
   constructor(
     private rawService: RawService,
     private installationService: InstallationService,
-    private router: Router,
   ) {
     const onConnect = this.rawService.onConnect.subscribe(
       () => {

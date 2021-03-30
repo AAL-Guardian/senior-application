@@ -1,4 +1,4 @@
-<app-wrapper [back]="back">
+<app-wrapper (back)="back()">
   <ng-container [ngSwitch]="step">
     <ng-template [ngSwitchCase]="0">
       <app-wrapper-title>

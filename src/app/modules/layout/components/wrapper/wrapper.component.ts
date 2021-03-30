@@ -1,25 +1,22 @@
 import { Location } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit } from '@angular/core';
-
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-wrapper',
   templateUrl: './wrapper.component.html',
   styleUrls: ['./wrapper.component.scss']
 })
-export class WrapperComponent implements OnInit {
+export class WrapperComponent {
 
   @Input()
   hideBack = false;
 
-  @Input()
-  back: Function = () => {
-    this.location.back();
-  }
+  @Output()
+  back = new EventEmitter<void>();
 
   constructor(private location: Location) { }
 
-  ngOnInit(): void {
+  backHandler() {
+    this.back.emit();
   }
-
 }

@@ -26,10 +26,9 @@ jobs:
     - name: npm install, build, and test
       run: |
         npm i
-        npm i -g @angular/cli
         git lfs fetch
         git lfs checkout
-        ng build --prod
+        npx ng build --prod
       env:
         CI: true
     - name: Save Build
