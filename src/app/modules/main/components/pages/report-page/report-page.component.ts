@@ -39,6 +39,7 @@ export class ReportPageComponent implements OnInit {
   }
 
   changed(index: number) {
+    this.reportService.cancelTimer();
     if (!this.currentQuestion?.multiple_answers && this.currentQuestion?.options[index].selected) {
       this.currentQuestion?.options.filter((one, i) => i !== index).forEach(one => one.selected = false)
     }

@@ -39,9 +39,7 @@ export class ReportService {
 
   start(report_request: ReportRequest) {
     this.currentReport = report_request;
-    if(this.reportTimeout) {
-      this.reportTimeout.unsubscribe();
-    }
+    this.cancelTimer();
     this.reportTimeout = timer(60 * 1000 * 3).subscribe(
       end => {
         this.currentReport = undefined;
@@ -71,11 +69,16 @@ export class ReportService {
     this.mqttService.send(`senior-app/events/${type}`, data);
   }
 
-  sendAnswers(reportSetup: ReportType, reportRequest?: ReportRequest) {
+  cancelTimer() {
     if(this.reportTimeout) {
-      this.reportTimeout.unsubscribe()
-      this.currentReport = undefined;
+      this.reportTimeout.unsubscribe();
+      this.reportTimeout = undefined;
     }
+  }
+
+  sendAnswers(reportSetup: ReportType, reportRequest?: ReportRequest) {
+    this.cancelTimer();
+    this.currentReport = undefined;
     this.mqttService.send('senior-app/answer', {
       reportSetup,
       reportRequest
