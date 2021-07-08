@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { map, tap } from 'rxjs/operators';
+import { Observable, Subscription, timer } from 'rxjs';
+import { map, tap, timeout } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { ReportQuestion } from '../models/report-question.model';
 import { ReportRequest } from '../models/report-request.model';
@@ -15,6 +16,7 @@ import { MqttService } from './mqtt.service';
 export class ReportService {
   
   currentReport: ReportRequest;
+  reportTimeout: Subscription;
 
   constructor(
     private http: HttpClient,
@@ -37,6 +39,15 @@ export class ReportService {
 
   start(report_request: ReportRequest) {
     this.currentReport = report_request;
+    if(this.reportTimeout) {
+      this.reportTimeout.unsubscribe();
+    }
+    this.reportTimeout = timer(60 * 1000 * 3).subscribe(
+      end => {
+        this.currentReport = undefined;
+        this.router.navigateByUrl('/')
+      }
+    )
     this.router.navigateByUrl('report');
   }
 
@@ -61,6 +72,10 @@ export class ReportService {
   }
 
   sendAnswers(reportSetup: ReportType, reportRequest?: ReportRequest) {
+    if(this.reportTimeout) {
+      this.reportTimeout.unsubscribe()
+      this.currentReport = undefined;
+    }
     this.mqttService.send('senior-app/answer', {
       reportSetup,
       reportRequest
