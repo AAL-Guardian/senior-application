@@ -1,7 +1,7 @@
 <app-wrapper [hideBack]="true">
   <app-wrapper-title>Hello {{ clientName }}, what would you like to do?</app-wrapper-title>
   <app-wrapper-body>
-    <div class="col-3 mt-3" *ngFor="let action of list; let i = index">
+    <div class="col-4 mt-3" *ngFor="let action of list; let i = index">
       <app-selectable-button
         [(selected)]="action.selected"
         (selectedChange)="changed(i)"
