@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subject } from 'rxjs';
 import { MqttService } from 'src/app/services/mqtt.service';
 import { ReportService } from 'src/app/services/report.service';
@@ -19,8 +20,11 @@ export class MainComponent implements OnInit {
 
   constructor(
     private mqttService: MqttService,
-    private reportService: ReportService
-  ) { }
+    private reportService: ReportService,
+    translateService: TranslateService,
+  ) {
+    translateService.use('en');
+  }
 
   ngOnInit(): void {
     this.mqttStatus = this.mqttService.status();

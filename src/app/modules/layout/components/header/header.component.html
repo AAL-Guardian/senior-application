@@ -4,4 +4,5 @@
   </div>
   <div class="back" *ngIf="hideBack">&nbsp;</div>
   <div class="time_header">{{ date | date: 'HH:mm'}}</div>
+  <div class="exit" (mousedown)="mousedown()" (mouseup)="mouseup()">Exit</div>
 </div>

@@ -25,6 +25,11 @@ export class InstallationService {
     )
   }
 
+  uninstall() {
+    localStorage.removeItem('robotCode');
+    localStorage.removeItem('installation');
+  }
+
   getData(): Installation {
     try {
       const data = localStorage.getItem('installation');

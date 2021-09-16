@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { interval } from 'rxjs';
+import { InstallationService } from 'src/app/services/installation.service';
 
 @Component({
   selector: 'app-header',
@@ -10,6 +11,7 @@ import { interval } from 'rxjs';
 @UntilDestroy()
 export class HeaderComponent implements OnInit {
 
+  exitTimer: Date;
   date: Date;
   @Input()
   hideBack = false;
@@ -17,7 +19,9 @@ export class HeaderComponent implements OnInit {
   @Output()
   back = new EventEmitter<void>();
 
-  constructor() { }
+  constructor(
+    private installationService: InstallationService
+  ) { }
 
   ngOnInit(): void {
     interval(1000).pipe(
@@ -27,4 +31,14 @@ export class HeaderComponent implements OnInit {
     )
   }
 
+  mousedown() {
+    this.exitTimer = new Date;
+  }
+
+  mouseup() {
+    if( ( (new Date).getTime() - this.exitTimer.getTime() ) < 1000 * 10 ) {
+      alert('ok');
+      // this.installationService.uninstall();
+    }
+  }
 }
