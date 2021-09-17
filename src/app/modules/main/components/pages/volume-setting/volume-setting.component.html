@@ -1,0 +1,10 @@
+<app-wrapper (back)="back()">
+  <app-wrapper-title>
+    Here you can set the volume of Misty
+  </app-wrapper-title>
+  <app-wrapper-body>
+    <div class="pt-5 p-4 w-100">
+      <input step="0.001" type="range" [formControl]="volumeControl">
+    </div>
+  </app-wrapper-body>
+</app-wrapper>

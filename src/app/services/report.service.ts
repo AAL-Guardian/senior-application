@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, Subscription, timer } from 'rxjs';
-import { map, tap, timeout } from 'rxjs/operators';
+import { Subscription, timer } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { ReportQuestion } from '../models/report-question.model';
 import { ReportRequest } from '../models/report-request.model';

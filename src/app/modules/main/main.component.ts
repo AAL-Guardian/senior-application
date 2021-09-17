@@ -1,7 +1,9 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subject } from 'rxjs';
+import { InstallationService } from 'src/app/services/installation.service';
 import { MqttService } from 'src/app/services/mqtt.service';
 import { ReportService } from 'src/app/services/report.service';
 
@@ -17,13 +19,16 @@ export class MainComponent implements OnInit {
   userActivity: any;
   userInactive: Subject<any> = new Subject();
   mqttStatus: Observable<string>;
+  exitTimer: Date;
 
   constructor(
     private mqttService: MqttService,
     private reportService: ReportService,
+    private installationService: InstallationService,
+    private router: Router,
     translateService: TranslateService,
   ) {
-    translateService.use('en');
+    translateService.use('it');
   }
 
   ngOnInit(): void {
@@ -45,4 +50,15 @@ export class MainComponent implements OnInit {
     this.setTimeout();
   }
 
+  mousedown() {
+    this.exitTimer = new Date;
+  }
+
+  mouseup() {
+    if( ( (new Date).getTime() - this.exitTimer.getTime() ) > 1000 * 10 ) {
+      this.installationService.uninstall();
+      this.router.navigateByUrl('/installation')
+    }
+    this.exitTimer = undefined;
+  }
 }

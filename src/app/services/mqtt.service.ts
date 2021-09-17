@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { IMqttClient, IMqttServiceOptions, MqttConnectionState, MqttService as RawService } from 'ngx-mqtt'
+import { IMqttClient, IMqttMessage, IMqttServiceOptions, MqttConnectionState, MqttService as RawService } from 'ngx-mqtt'
+import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Question } from '../models/question.model';
@@ -52,9 +53,9 @@ export class MqttService {
     this.rawService.disconnect();
   }
 
-  status() {
+  status(): Observable<string> {
     return this.rawService.state.pipe(
-      map(state => {
+      map((state: MqttConnectionState) => {
         switch (state) {
           case MqttConnectionState.CLOSED:
             return 'CLOSED';
@@ -62,6 +63,8 @@ export class MqttService {
             return 'CONNECTING';
           case MqttConnectionState.CONNECTED:
             return 'CONNECTED';
+          // default:
+          //   throw new Error('Unknown Status')
         }
       })
     );
@@ -71,7 +74,7 @@ export class MqttService {
     this.connect();
     const data = this.installationService.getData();
     return this.rawService.observe(`${data.robotTopic}/#`).pipe(
-      map(message => ({
+      map((message: IMqttMessage) => ({
         topic: message.topic,
         message: message.payload.toString(),
         qos: message.qos,
@@ -89,7 +92,7 @@ export class MqttService {
     this.connect();
     const data = this.installationService.getData();
     return this.rawService.observe(`${data.robotTopic}/question`).pipe(
-      map(res => JSON.parse(res.payload.toString()) as Question),
+      map((res: IMqttMessage) => JSON.parse(res.payload.toString()) as Question),
       tap(res => console.log(res))
     )
   }
@@ -101,7 +104,7 @@ export class MqttService {
     this.connect();
     const data = this.installationService.getData();
     return this.rawService.observe(`${data.robotTopic}/answer`).pipe(
-      map(res => JSON.parse(res.payload.toString()) as string),
+      map((res: IMqttMessage) => JSON.parse(res.payload.toString()) as string),
       tap(res => console.log(res))
     )
   }
@@ -120,7 +123,7 @@ export class MqttService {
 
   message() {
     return this.rawService.messages.pipe(
-      map((value, index) => {
+      map((value: IMqttMessage, index) => {
         return value.topic + '-' + index.toFixed() + ':' + value.payload.toString()
       })
     );

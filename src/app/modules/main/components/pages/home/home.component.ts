@@ -5,6 +5,14 @@ import { ReportType } from 'src/app/models/report-type.model';
 import { InstallationService } from 'src/app/services/installation.service';
 import { ReportService } from 'src/app/services/report.service';
 
+type ButtonType = "link" | "report";
+type ActionButton = {
+  type: ButtonType,
+  selected: boolean,
+  description: string,
+  [key: string]: unknown,
+}
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -12,9 +20,12 @@ import { ReportService } from 'src/app/services/report.service';
 })
 export class HomeComponent implements OnInit {
 
-  list: ReportType[];
-  selected: ReportType;
+  list: ActionButton[];
+  selected: ActionButton;
   clientName: string;
+  get clientNameTr() {
+    return { clientName: this.clientName }
+  }
 
   constructor(
     protected router: Router,
@@ -24,7 +35,27 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.reportService.listReportTypes().subscribe(
-      list => this.list = list
+      list => this.list = [
+        ...list.map(
+          one => ({
+            ...one,
+            selected: false,
+            type: "report" as ButtonType
+          })
+        ),
+        {
+          selected: false,
+          description: 'I want to change the volume of Misty',
+          type: "link",
+          href: '/volume'
+        },
+        {
+          selected: false,
+          description: 'I want to see my appointments of today',
+          type: "link",
+          href: "/appointments"
+        }
+      ]
     );
     this.clientName = this.installationService.getData()?.clientName;
   }
@@ -37,6 +68,14 @@ export class HomeComponent implements OnInit {
   }
 
   send() {
-    this.reportService.start({ report_type_id: this.selected.id, show_followups: 1 } as ReportRequest)
+    switch(this.selected.type) {
+      case 'link':
+        this.router.navigateByUrl(this.selected.href as string);
+        break;
+      case 'report':
+        this.reportService.start({ report_type_id: this.selected.id, show_followups: 1 } as ReportRequest);
+        break;
+    }
+    
   }
 }

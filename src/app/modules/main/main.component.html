@@ -1,4 +1,7 @@
 <router-outlet></router-outlet>
+<div class="exit" [class.mouse-down]="exitTimer" (mousedown)="mousedown()" (mouseup)="mouseup()" (mouseleave)="exitTimer = undefined">
+  <i class="fas fa-door-open"></i>
+</div>
 <div class="mqtt-status" [ngSwitch]="mqttStatus | async">
   <ng-container *ngSwitchCase="'CONNECTED'">
     <i class="fas fa-circle" [style.color]="'green'"></i>

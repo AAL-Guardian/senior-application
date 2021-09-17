@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  apiEndpoint: "https://api.guardian.jef.it/dev"
-  // apiEndpoint: 'http://localhost:3000',
+  // apiEndpoint: "https://api.guardian.jef.it/dev"
+  apiEndpoint: 'http://localhost:3000/dev',
 };
 
 /*

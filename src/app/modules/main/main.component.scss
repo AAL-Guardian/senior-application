@@ -3,3 +3,13 @@
   right: 10px;
   bottom: 10px;
 }
+
+.exit {
+  position: fixed;
+  right: 8px;
+  bottom: 35px;
+  cursor: pointer;
+  &.mouse-down {
+    cursor: grabbing
+  }
+}

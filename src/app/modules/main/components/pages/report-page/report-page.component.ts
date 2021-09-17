@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { ReportQuestionOption } from 'src/app/models/report-question-option.model';
 import { ReportQuestion } from 'src/app/models/report-question.model';
 import { ReportType } from 'src/app/models/report-type.model';
@@ -17,18 +18,23 @@ export class ReportPageComponent implements OnInit {
   currentQuestion: ReportQuestion;
   pastQuestions = [];
   confirmation: string;
+  confirmationMessage: string;
 
   selected: ReportQuestionOption[];
 
   constructor(
     private reportService: ReportService,
-    private router: Router
+    private router: Router,
+    private translateService: TranslateService
   ) { }
 
   ngOnInit(): void {
     if (!this.reportService.currentReport) {
       this.router.navigateByUrl('/');
     }
+    this.translateService.get('Question.Confirmation').subscribe(
+      tr => this.confirmationMessage = tr
+    )
     this.reportService.getReportSetup(this.reportService.currentReport.report_type_id.toFixed()).subscribe(
       res => {
         this.reportSetup = res;
@@ -54,7 +60,7 @@ export class ReportPageComponent implements OnInit {
 
   back() {
     if (this.pastQuestions?.length === 0) {
-      this.end();
+      this.router.navigate(['/']);
       return;
     }
     this.confirmation = undefined;
@@ -69,8 +75,8 @@ export class ReportPageComponent implements OnInit {
       this.changeCurrentQuestion(followedOption?.followup_question);
     } else {
       this.currentQuestion = undefined;
-      this.confirmation = 'Do you want to send this report?'
-      this.reportService.showMessage(this.confirmation);
+      this.confirmation = this.confirmationMessage
+      this.reportService.showMessage(this.confirmationMessage);
     }
   }
 

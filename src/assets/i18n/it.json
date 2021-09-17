@@ -1,0 +1,10 @@
+{
+  "Back": "Indietro",
+  "Home": {
+    "Hello": "Ciao {{ clientName }}, cosa vuoi fare oggi?"
+  },
+  "Question": {
+    "Confirmation": "Vuoi confermare queste risposte?",
+    "Send": "Invia"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "Back": "Back",
+  "Home": {
+    "Hello": "Hello {{ clientName }}, what do you want to do today?"
+  },
+  "Question": {
+    "Confirmation": "Do you want to confirm this report?",
+    "Send": "Send"
+  }
+}

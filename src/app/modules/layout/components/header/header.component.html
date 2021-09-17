@@ -1,8 +1,7 @@
 <div class="position-fixed fixed-top topbar">
   <div class="button_app back" (click)="back.emit()" *ngIf="!hideBack">
-    <span ><i class="fa fa-angle-left" aria-hidden="true"></i></span>back
+    <span ><i class="fa fa-angle-left" aria-hidden="true"></i></span>{{ 'Back' | translate }}
   </div>
   <div class="back" *ngIf="hideBack">&nbsp;</div>
   <div class="time_header">{{ date | date: 'HH:mm'}}</div>
-  <div class="exit" (mousedown)="mousedown()" (mouseup)="mouseup()">Exit</div>
 </div>

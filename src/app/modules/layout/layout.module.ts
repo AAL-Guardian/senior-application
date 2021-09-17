@@ -7,6 +7,7 @@ import { SelectableButtonComponent } from './components/selectable-button/select
 import { WrapperTitleComponent } from './components/wrapper-title/wrapper-title.component';
 import { WrapperBodyComponent } from './components/wrapper-body/wrapper-body.component';
 import { WrapperFooterComponent } from './components/wrapper-footer/wrapper-footer.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 const components = [
@@ -24,7 +25,8 @@ const components = [
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    TranslateModule
   ],
   exports: [
     ...components
