@@ -1,0 +1,14 @@
+ul {
+  li {
+    border-top: 1px solid lightgrey;
+    &:last-child {
+      border-bottom: 1px solid lightgrey;
+    }
+
+    span {
+      line-height: normal;
+      font-size: 3em;
+    }
+  }
+  
+}

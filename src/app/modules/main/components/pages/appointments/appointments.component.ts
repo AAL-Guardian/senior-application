@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { AppointmentRecurrence } from 'src/app/models/appointment-recurrence.model';
+import { AppointmentService } from 'src/app/services/appointment.service';
+import { ReportService } from 'src/app/services/report.service';
 
 @Component({
   selector: 'app-appointments',
@@ -6,10 +11,35 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./appointments.component.scss']
 })
 export class AppointmentsComponent implements OnInit {
+  
+  appointments: AppointmentRecurrence[];
 
-  constructor() { }
-
-  ngOnInit(): void {
+  get appointmentsNumber() {
+    return { appointmentsNumber: ( this.appointments?.length || 0 ) }
   }
 
+  constructor(
+    private router: Router,
+    private appointmentService: AppointmentService,
+    private reportService: ReportService,
+    private translate: TranslateService
+  ) { }
+
+  ngOnInit(): void {
+
+    this.appointmentService.getTodayAppointments().subscribe(
+      appointments => {
+        this.translate.get('Appointments.Title', this.appointmentsNumber).subscribe(
+          translation => {
+            this.reportService.showMessage(translation);
+            this.appointments = appointments
+          }
+        )
+      }
+    )
+  }
+
+  back() {
+    this.router.navigateByUrl('/');
+  }
 }

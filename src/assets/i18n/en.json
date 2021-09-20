@@ -1,10 +1,16 @@
 {
   "Back": "Back",
   "Home": {
-    "Hello": "Hello {{ clientName }}, what do you want to do today?"
+    "Title": "Hello {{ clientName }}, what do you want to do today?"
   },
   "Question": {
     "Confirmation": "Do you want to confirm this report?",
     "Send": "Send"
+  },
+  "Volume": {
+    "Title": "Here you can set the volume of Misty"
+  },
+  "Appointments": {
+    "Title": "You have {{ appointmentsNumber }} appointments planned for today"
   }
 }

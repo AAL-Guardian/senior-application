@@ -15,5 +15,7 @@ export interface ReportRequest {
   date_deleted?: string,
   time?: number
 
+  description: string;
+
   report_question: ReportQuestion[];
 }

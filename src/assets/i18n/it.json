@@ -1,10 +1,16 @@
 {
   "Back": "Indietro",
   "Home": {
-    "Hello": "Ciao {{ clientName }}, cosa vuoi fare oggi?"
+    "Title": "Ciao {{ clientName }}, cosa vuoi fare oggi?"
   },
   "Question": {
-    "Confirmation": "Vuoi confermare queste risposte?",
+    "Confirmation": "Vuoi confermare questo rapporto?",
     "Send": "Invia"
+  },
+  "Volume": {
+    "Title": "Qui puoi impostare il volume di Misty"
+  },
+  "Appointments": {
+    "Title": "Hai {{ appointmentsNumber }} appuntamenti in programma per oggi"
   }
 }

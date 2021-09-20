@@ -36,7 +36,9 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.reportService.listReportTypes().subscribe(
       list => this.list = [
-        ...list.map(
+        ...list
+        .filter(one => one.id !== 3)
+        .map(
           one => ({
             ...one,
             selected: false,

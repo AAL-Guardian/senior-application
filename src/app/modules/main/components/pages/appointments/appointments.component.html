@@ -1,1 +1,15 @@
-<p>appointments works!</p>
+<app-wrapper (back)="back()">
+  <app-wrapper-title>
+    {{ 'Appointments.Title' | translate: appointmentsNumber }}
+  </app-wrapper-title>
+  <app-wrapper-body>
+    <div class="p-5 w-100">
+      <ul class="list-unstyled">
+        <li class="w-100 d-flex justify-content-between" *ngFor="let elem of appointments">
+          <span>{{ elem.title }}</span>
+          <span>{{ elem.date_start | date : 'HH:mm' }} - {{ elem.date_finish | date : 'HH:mm' }}</span>
+        </li>
+      </ul>
+    </div>
+  </app-wrapper-body>
+</app-wrapper>
