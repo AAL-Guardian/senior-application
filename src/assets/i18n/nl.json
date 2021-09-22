@@ -1,7 +1,9 @@
 {
   "Back": "Terug",
   "Home": {
-    "Title": "Hallo{{ clientName }}, wat wilt u vandaag doen?"
+    "Title": "Hallo {{ clientName }}, wat wilt u vandaag doen?",
+    "SeeAppointments": "Ik wil graag mijn afspraken van vandaag zien",
+    "ChangeVolume": "Ik wil het volume van Misty aanpassen"
   },
   "Question": {
     "Confirmation": "Wilt u deze melding bevestigen?",

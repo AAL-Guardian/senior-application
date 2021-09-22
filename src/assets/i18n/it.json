@@ -1,7 +1,9 @@
 {
   "Back": "Indietro",
   "Home": {
-    "Title": "Ciao {{ clientName }}, cosa vuoi fare oggi?"
+    "Title": "Ciao {{ clientName }}, cosa vuoi fare oggi?",
+    "SeeAppointments": "Voglio vedere i miei appuntamenti di oggi",
+    "ChangeVolume": "Voglio cambiare il volume di Misty"
   },
   "Question": {
     "Confirmation": "Vuoi confermare questo rapporto?",

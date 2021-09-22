@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { forkJoin } from 'rxjs';
 import { ReportRequest } from 'src/app/models/report-request.model';
-import { ReportType } from 'src/app/models/report-type.model';
 import { InstallationService } from 'src/app/services/installation.service';
 import { ReportService } from 'src/app/services/report.service';
 
@@ -30,12 +31,17 @@ export class HomeComponent implements OnInit {
   constructor(
     protected router: Router,
     protected reportService: ReportService,
-    protected installationService: InstallationService
+    protected installationService: InstallationService,
+    protected translationSevice: TranslateService
   ) { }
 
   ngOnInit(): void {
-    this.reportService.listReportTypes().subscribe(
-      list => this.list = [
+    forkJoin([
+      this.translationSevice.get('Home.ChangeVolume'),
+      this.translationSevice.get('Home.SeeAppointments'),
+      this.reportService.listReportTypes()
+    ]).subscribe(
+      ([volumeMessage, appointmentsMessage, list]) => this.list = [
         ...list
         .filter(one => one.id !== 3)
         .map(
@@ -47,13 +53,13 @@ export class HomeComponent implements OnInit {
         ),
         {
           selected: false,
-          description: 'I want to change the volume of Misty',
+          description: volumeMessage,
           type: "link",
           href: '/volume'
         },
         {
           selected: false,
-          description: 'I want to see my appointments of today',
+          description: appointmentsMessage,
           type: "link",
           href: "/appointments"
         }

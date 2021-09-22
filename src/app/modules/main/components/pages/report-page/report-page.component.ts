@@ -57,10 +57,10 @@ export class ReportPageComponent implements OnInit {
   changeCurrentQuestion(question: ReportQuestion) {
     this.currentQuestion = question;
     if(this.reportService.currentReport.description?.length > 0 && this.currentQuestion.description.includes('{{ description }}')) {
-      this.currentQuestion.description.replace('{{ description }}', this.reportService.currentReport.description)
+      this.currentQuestion.description = this.currentQuestion.description.replace('{{ description }}', this.reportService.currentReport.description)
     }
 
-    this.currentQuestion.description.replace('{{ clientName }}', this.installationService.getData()?.clientName)
+    this.currentQuestion.description = this.currentQuestion.description.replace('{{ clientName }}', this.installationService.getData()?.clientName)
   
     this.selected = this.currentQuestion.options.filter(one => one.selected);
     this.reportService.changeQuestion(question);
