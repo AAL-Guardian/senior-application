@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ReportQuestionOption } from 'src/app/models/report-question-option.model';
 import { ReportQuestion } from 'src/app/models/report-question.model';
 import { ReportType } from 'src/app/models/report-type.model';
+import { InstallationService } from 'src/app/services/installation.service';
 import { ReportService } from 'src/app/services/report.service';
 
 @Component({
@@ -25,7 +26,8 @@ export class ReportPageComponent implements OnInit {
   constructor(
     private reportService: ReportService,
     private router: Router,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private installationService: InstallationService
   ) { }
 
   ngOnInit(): void {
@@ -54,9 +56,12 @@ export class ReportPageComponent implements OnInit {
 
   changeCurrentQuestion(question: ReportQuestion) {
     this.currentQuestion = question;
-    if(this.reportService.currentReport.description?.length > 0 && this.currentQuestion.description.includes('{{ medication }}')) {
-      this.currentQuestion.description.replace('{{ medication }}', this.reportService.currentReport.description)
+    if(this.reportService.currentReport.description?.length > 0 && this.currentQuestion.description.includes('{{ description }}')) {
+      this.currentQuestion.description.replace('{{ description }}', this.reportService.currentReport.description)
     }
+
+    this.currentQuestion.description.replace('{{ clientName }}', this.installationService.getData()?.clientName)
+  
     this.selected = this.currentQuestion.options.filter(one => one.selected);
     this.reportService.changeQuestion(question);
   }
