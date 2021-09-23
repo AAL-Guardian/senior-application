@@ -1,5 +1,6 @@
 {
   "Back": "Back",
+  "HomeButton": "Home",
   "Home": {
     "Title": "Hello {{ clientName }}, what do you want to do today?",
     "SeeAppointments": "I want to see my appointments of today",
@@ -7,6 +8,7 @@
   },
   "Question": {
     "Confirmation": "Do you want to confirm this report?",
+    "ThankYou": "Thank you for this report",
     "Send": "Send"
   },
   "Volume": {

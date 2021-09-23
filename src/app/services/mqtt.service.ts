@@ -152,4 +152,12 @@ export class MqttService {
   sendAnswer(text: string) {
     return this.send('answer', text);
   }
+
+  sendEvent(type: string, data: any) {
+    this.send(`senior-app/events/${type}`, data);
+  }
+
+  showMessage(text: string) {
+    this.sendEvent('showing_message',  { text });
+  }
 }

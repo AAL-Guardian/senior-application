@@ -1,3 +1,24 @@
-.button_app.back {
+.button_app {
   cursor: pointer;
+  &.home {
+    width: auto;
+    background-color: #00a34c;
+    padding: 25px 25px 25px 80px;
+    color: #fff;
+    border-radius: 0;
+    z-index: 2;
+    position: relative;
+    border-left: 1px solid #fff;
+    font-size: 1.2rem;
+    font-weight: 700;
+
+    span {
+      font-size: 2rem;
+      line-height: 2rem;
+      font-weight: 700;
+      position: absolute;
+      top: 17px;
+      left: 20px;
+    }
+  }
 }

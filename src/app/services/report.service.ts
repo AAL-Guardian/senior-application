@@ -50,23 +50,15 @@ export class ReportService {
   }
 
   markShownCurrent() {
-    this.sendEvent('showing_report', this.currentReport)
+    this.mqttService.sendEvent('showing_report', this.currentReport)
   }
 
   getReportSetup(reportTypeId: string) {
     return this.http.get<ReportType>(`${environment.apiEndpoint}/report/` + reportTypeId)
   }
 
-  showMessage(text: string) {
-    this.sendEvent('showing_message',  { text });
-  }
-
   changeQuestion(reportQuestion: ReportQuestion) {
-    this.sendEvent('showing_question', reportQuestion);
-  }
-
-  sendEvent(type: string, data: any) {
-    this.mqttService.send(`senior-app/events/${type}`, data);
+    this.mqttService.sendEvent('showing_question', reportQuestion);
   }
 
   cancelTimer() {
@@ -76,12 +68,16 @@ export class ReportService {
     }
   }
 
-  sendAnswers(reportSetup: ReportType, reportRequest?: ReportRequest) {
+  endReport() {
     this.cancelTimer();
     this.currentReport = undefined;
+  }
+
+  sendAnswers(reportSetup: ReportType, reportRequest?: ReportRequest) {
     this.mqttService.send('senior-app/answer', {
       reportSetup,
       reportRequest
     });
+    this.endReport();
   }
 }

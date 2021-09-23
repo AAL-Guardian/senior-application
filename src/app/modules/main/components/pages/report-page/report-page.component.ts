@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ReportQuestionOption } from 'src/app/models/report-question-option.model';
 import { ReportQuestion } from 'src/app/models/report-question.model';
 import { ReportType } from 'src/app/models/report-type.model';
 import { InstallationService } from 'src/app/services/installation.service';
+import { MqttService } from 'src/app/services/mqtt.service';
 import { ReportService } from 'src/app/services/report.service';
 
 @Component({
@@ -12,7 +13,7 @@ import { ReportService } from 'src/app/services/report.service';
   templateUrl: './report-page.component.html',
   styleUrls: ['./report-page.component.scss']
 })
-export class ReportPageComponent implements OnInit {
+export class ReportPageComponent implements OnInit, OnDestroy {
 
   reportSetup: ReportType;
 
@@ -25,6 +26,7 @@ export class ReportPageComponent implements OnInit {
 
   constructor(
     private reportService: ReportService,
+    private mqttService: MqttService,
     private router: Router,
     private translateService: TranslateService,
     private installationService: InstallationService
@@ -84,12 +86,25 @@ export class ReportPageComponent implements OnInit {
     } else {
       this.currentQuestion = undefined;
       this.confirmation = this.confirmationMessage
-      this.reportService.showMessage(this.confirmationMessage);
+      this.mqttService.showMessage(this.confirmationMessage);
     }
   }
 
   end() {
-    this.reportService.sendAnswers(this.reportSetup, this.reportService.currentReport);
     this.router.navigate(['/']);
+  }
+
+  send() {
+    this.translateService.get('Report.ThankYou').subscribe(
+      message => {
+        this.mqttService.showMessage(message);
+        this.reportService.sendAnswers(this.reportSetup, this.reportService.currentReport);
+        this.router.navigate(['/']);
+      }
+    )
+  }
+
+  ngOnDestroy() {
+    this.reportService.endReport()
   }
 }

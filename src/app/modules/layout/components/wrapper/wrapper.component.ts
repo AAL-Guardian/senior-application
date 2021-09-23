@@ -10,6 +10,8 @@ export class WrapperComponent {
 
   @Input()
   hideBack = false;
+  @Input()
+  hideHome = false;
 
   @Output()
   back = new EventEmitter<void>();

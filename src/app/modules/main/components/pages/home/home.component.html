@@ -1,4 +1,4 @@
-<app-wrapper [hideBack]="true">
+<app-wrapper [hideBack]="true" [hideHome]="true">
   <app-wrapper-title>{{ 'Home.Title' | translate: clientNameTr }}</app-wrapper-title>
   <app-wrapper-body>
     <div class="col-4 mt-3" *ngFor="let action of list; let i = index">

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AppointmentRecurrence } from 'src/app/models/appointment-recurrence.model';
 import { AppointmentService } from 'src/app/services/appointment.service';
-import { ReportService } from 'src/app/services/report.service';
+import { MqttService } from 'src/app/services/mqtt.service';
 
 @Component({
   selector: 'app-appointments',
@@ -21,7 +21,7 @@ export class AppointmentsComponent implements OnInit {
   constructor(
     private router: Router,
     private appointmentService: AppointmentService,
-    private reportService: ReportService,
+    private mqttService: MqttService,
     private translate: TranslateService
   ) { }
 
@@ -31,7 +31,7 @@ export class AppointmentsComponent implements OnInit {
       appointments => {
         this.translate.get('Appointments.Title', this.appointmentsNumber).subscribe(
           translation => {
-            this.reportService.showMessage(translation);
+            this.mqttService.showMessage(translation);
             this.appointments = appointments
           }
         )

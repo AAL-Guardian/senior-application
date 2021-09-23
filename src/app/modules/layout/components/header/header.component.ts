@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { interval } from 'rxjs';
-import { InstallationService } from 'src/app/services/installation.service';
 
 @Component({
   selector: 'app-header',
@@ -12,15 +11,17 @@ import { InstallationService } from 'src/app/services/installation.service';
 @UntilDestroy()
 export class HeaderComponent implements OnInit {
 
-  date: Date;
+  date = new Date();
   @Input()
   hideBack = false;
+  @Input()
+  hideHome = false;
 
   @Output()
   back = new EventEmitter<void>();
 
   constructor(
-
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -29,5 +30,9 @@ export class HeaderComponent implements OnInit {
     ).subscribe(
       () => this.date = new Date()
     )
+  }
+
+  home() {
+    this.router.navigateByUrl('/');
   }
 }
