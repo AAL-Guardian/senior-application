@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { debounceTime } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
+import { debounceTime, distinct, distinctUntilChanged, tap } from 'rxjs/operators';
 import { Robot } from 'src/app/models/robot.model';
+import { InstallationService } from 'src/app/services/installation.service';
+import { MqttService } from 'src/app/services/mqtt.service';
 import { SettingsService } from 'src/app/services/settings.service';
 
 @Component({
@@ -16,13 +19,20 @@ export class VolumeSettingComponent implements OnInit {
 
   robot: Robot;
   volumeControl = new FormControl(undefined);
-  
+  testMessage: string;
+
   constructor(
     private router: Router,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private mqttService: MqttService,
+    private translateService: TranslateService,
+    private installationService: InstallationService
   ) { }
 
   ngOnInit(): void {
+    this.translateService.get("Volume.TestMessage", { clientName: this.installationService.getData()?.clientName }).subscribe(
+      message => this.testMessage = message
+    )
     this.volumeControl.disable();
     this.settingsService.getRobotSettings().subscribe(
       robot => {
@@ -34,15 +44,19 @@ export class VolumeSettingComponent implements OnInit {
 
         this.volumeControl.valueChanges.pipe(
           untilDestroyed(this),
-          debounceTime(400)
+          debounceTime(300),
         ).subscribe(
           val => {
             this.robot.extra.volume = val;
             this.settingsService.setRobotSettings(this.robot).subscribe();
           }
-        )
+        );
       }
     )
+  }
+
+  sendAudio() {
+    this.mqttService.showMessage(this.testMessage);
   }
 
   back() {

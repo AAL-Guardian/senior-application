@@ -11,7 +11,8 @@
     "Send": "Invia"
   },
   "Volume": {
-    "Title": "Qui puoi impostare il volume di Misty"
+    "Title": "Qui puoi impostare il volume di Misty",
+    "TestMessage": "Ciao {{ clientName }}"
   },
   "Appointments": {
     "Title": "Hai {{ appointmentsNumber }} appuntamenti in programma per oggi"

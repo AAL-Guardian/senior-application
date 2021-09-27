@@ -1,10 +1,16 @@
 <app-wrapper (back)="back()">
   <app-wrapper-title>
     {{ 'Volume.Title' | translate }}
+    <button class="btn float-right btn-lg" (click)="sendAudio()">
+      <i class="fas fa-volume-up"></i>
+    </button>
   </app-wrapper-title>
   <app-wrapper-body>
     <div class="pt-5 p-4 w-100">
-      <input step="0.001" type="range" [formControl]="volumeControl">
+      <input step="1" type="range" [formControl]="volumeControl">
+    </div>
+    <div class="pt-5 p-4 w-100">
+      
     </div>
   </app-wrapper-body>
 </app-wrapper>

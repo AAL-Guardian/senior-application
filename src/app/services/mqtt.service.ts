@@ -83,8 +83,8 @@ export class MqttService {
     )
   }
 
-  
-  
+
+
   /**
    * @deprecated
    */
@@ -158,6 +158,6 @@ export class MqttService {
   }
 
   showMessage(text: string) {
-    this.sendEvent('showing_message',  { text });
+    this.sendEvent('showing_message', { text });
   }
 }

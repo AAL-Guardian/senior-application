@@ -11,7 +11,8 @@
     "Send": "Versturen"
   },
   "Volume": {
-    "Title": "Hier kunt u het volume van Misty instellen"
+    "Title": "Hier kunt u het volume van Misty instellen",
+    "TestMessage": "Hallo {{ clientName }}"
   },
   "Appointments": {
     "Title": "U heeft voor vandaag {{ appointmentsNumber }} afspraken gepland staan"
