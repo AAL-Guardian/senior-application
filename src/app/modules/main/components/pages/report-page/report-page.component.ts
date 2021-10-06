@@ -95,7 +95,7 @@ export class ReportPageComponent implements OnInit, OnDestroy {
   }
 
   send() {
-    this.translateService.get('Report.ThankYou').subscribe(
+    this.translateService.get('Question.ThankYou').subscribe(
       message => {
         this.mqttService.showMessage(message);
         this.reportService.sendAnswers(this.reportSetup, this.reportService.currentReport);

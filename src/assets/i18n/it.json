@@ -10,6 +10,9 @@
     "ThankYou": "Grazie per questo rapporto",
     "Send": "Invia"
   },
+  "Report": {
+    "ThankYou": "Grazie per questo rapporto"
+  },
   "Volume": {
     "Title": "Qui puoi impostare il volume di Misty",
     "TestMessage": "Ciao {{ clientName }}"
