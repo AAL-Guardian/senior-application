@@ -28,7 +28,7 @@ export class MainComponent implements OnInit {
     private router: Router,
     translateService: TranslateService,
   ) {
-    translateService.use('it');
+    translateService.use(this.installationService.getData().clientLang);
   }
 
   ngOnInit(): void {
