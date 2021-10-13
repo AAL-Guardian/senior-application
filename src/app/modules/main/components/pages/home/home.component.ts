@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit {
     ]).subscribe(
       ([volumeMessage, appointmentsMessage, list]) => this.list = [
         ...list
-        .filter(one => one.id !== 3)
+        .filter(one => ['MEDICATION', 'MEAL', 'ACTIVITY'].includes(one.name))
         .map(
           one => ({
             ...one,
