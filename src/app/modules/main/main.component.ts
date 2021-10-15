@@ -55,7 +55,7 @@ export class MainComponent implements OnInit {
   }
 
   mouseup() {
-    if( ( (new Date).getTime() - this.exitTimer.getTime() ) > 1000 * 10 ) {
+    if( ( (new Date).getTime() - this.exitTimer.getTime() ) > 1000 * 5 ) {
       this.installationService.uninstall();
       this.router.navigateByUrl('/installation')
     }

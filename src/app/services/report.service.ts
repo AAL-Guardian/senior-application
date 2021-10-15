@@ -9,7 +9,6 @@ import { ReportRequest } from '../models/report-request.model';
 import { ReportType } from '../models/report-type.model';
 import { MqttService } from './mqtt.service';
 
-
 @Injectable({
   providedIn: 'root'
 })

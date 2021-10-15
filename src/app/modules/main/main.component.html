@@ -1,5 +1,12 @@
 <router-outlet></router-outlet>
-<div class="exit" [class.mouse-down]="exitTimer" (mousedown)="mousedown()" (mouseup)="mouseup()" (mouseleave)="exitTimer = undefined">
+<div
+  class="exit"
+  [class.mouse-down]="exitTimer"
+  (mousedown)="mousedown()"
+  (touchstart)="mousedown()"
+  (mouseup)="mouseup()"
+  (touchend)="mouseup()"
+  (mouseleave)="exitTimer = undefined">
   <i class="fas fa-door-open"></i>
 </div>
 <div class="mqtt-status" [ngSwitch]="mqttStatus | async">
