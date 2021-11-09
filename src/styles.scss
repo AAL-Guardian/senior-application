@@ -54,7 +54,7 @@ body {
 
   &.back {
     width: auto;
-    background-color: #00a34c;
+    background-color: #075224;
     padding: 25px 25px 25px 60px;
     color: #fff;
     border-radius: 0;
@@ -92,9 +92,9 @@ body {
   }
 
   &.select_mode {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     text-transform: none;
-    line-height: 2.4rem;
+    line-height: 2rem;
     // display: flex;
     height: 100%;
     align-items: center;
@@ -118,8 +118,8 @@ body {
 }
 
 .main_title_app {
-  font-size: 2.6rem;
-  line-height: 3rem;
+  font-size: 2.4rem;
+  line-height: 2.6rem;
   color: #000000;
   font-weight: 500;
   margin-bottom: 15px;
@@ -131,10 +131,6 @@ body {
   color: #000000;
   font-weight: 400;
   margin-bottom: 15px;
-}
-
-.with_margin_top_bottom {
-  margin: 40px 0;
 }
 
 .with_margin_top {
