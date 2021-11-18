@@ -1,13 +1,19 @@
 .mqtt-status {
   position: fixed;
-  right: 10px;
+  right: 12px;
   bottom: 10px;
+}
+
+.robot-status {
+  position: fixed;
+  right: 10px;
+  bottom: 35px;
 }
 
 .exit {
   position: fixed;
   right: 8px;
-  bottom: 35px;
+  bottom: 60px;
   cursor: pointer;
   &.mouse-down {
     cursor: grabbing

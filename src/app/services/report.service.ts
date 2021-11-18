@@ -24,7 +24,6 @@ export class ReportService {
   ) { }
 
   listenReportRequests() {
-    this.mqttService.connect();
     return this.mqttService.listen(`senior-app/report-request`).pipe(
       map(res => JSON.parse(res.payload.toString()) as ReportRequest),
       tap(res => console.log(res)),

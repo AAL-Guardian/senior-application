@@ -52,9 +52,13 @@ body {
     color: #000000;
   }
 
+  &.greenish {
+    background-color: #00A34C;
+  }
+
   &.back {
     width: auto;
-    background-color: #075224;
+    background-color: #4F4F4F;
     padding: 25px 25px 25px 60px;
     color: #fff;
     border-radius: 0;

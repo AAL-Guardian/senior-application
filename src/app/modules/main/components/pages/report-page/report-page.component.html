@@ -4,7 +4,7 @@
       {{ currentQuestion?.description }}
     </app-wrapper-title>
     <div class="col-12 text-center pb-3">
-      <button class="button_app" (click)="next()" *ngIf="selected.length > 0">OK</button>
+      <button class="button_app greenish" (click)="next()" *ngIf="selected.length > 0">OK</button>
     </div>
     <app-wrapper-body>
       <div
@@ -19,7 +19,7 @@
       </div>
     </app-wrapper-body>
     <app-wrapper-footer>
-      <button class="button_app" (click)="next()" *ngIf="selected.length > 0">OK</button>
+      <button class="button_app greenish" (click)="next()" *ngIf="selected.length > 0">OK</button>
     </app-wrapper-footer>
   </ng-template>
   <ng-template [ngIf]="confirmation">

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { IMqttClient, IMqttMessage, IMqttServiceOptions, MqttConnectionState, MqttService as RawService } from 'ngx-mqtt'
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, startWith, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Question } from '../models/question.model';
 import { ReportRequest } from '../models/report-request.model';
@@ -71,9 +71,7 @@ export class MqttService {
   }
 
   listenAll() {
-    this.connect();
-    const data = this.installationService.getData();
-    return this.rawService.observe(`${data.robotTopic}/#`).pipe(
+    return this.listen(`#`).pipe(
       map((message: IMqttMessage) => ({
         topic: message.topic,
         message: message.payload.toString(),
@@ -89,9 +87,7 @@ export class MqttService {
    * @deprecated
    */
   listenQuestions() {
-    this.connect();
-    const data = this.installationService.getData();
-    return this.rawService.observe(`${data.robotTopic}/question`).pipe(
+    return this.listen(`question`).pipe(
       map((res: IMqttMessage) => JSON.parse(res.payload.toString()) as Question),
       tap(res => console.log(res))
     )
@@ -101,9 +97,7 @@ export class MqttService {
    * @deprecated
    */
   listenAnswers() {
-    this.connect();
-    const data = this.installationService.getData();
-    return this.rawService.observe(`${data.robotTopic}/answer`).pipe(
+    return this.listen('answer').pipe(
       map((res: IMqttMessage) => JSON.parse(res.payload.toString()) as string),
       tap(res => console.log(res))
     )
@@ -119,6 +113,14 @@ export class MqttService {
     this.connect();
     const data = this.installationService.getData();
     return this.rawService.observe(`$aws/things/${data.robotTopic}/shadow`)
+  }
+
+  listenStatus() {
+    return this.listen('status').pipe(
+      map(res => JSON.parse(res.payload.toString()) as { alive?: boolean }),
+      startWith({ alive: undefined }),
+      map(res => res.alive)
+    )
   }
 
   message() {

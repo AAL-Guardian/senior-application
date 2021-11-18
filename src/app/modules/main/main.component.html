@@ -9,6 +9,15 @@
   (mouseleave)="exitTimer = undefined">
   <i class="fas fa-door-open"></i>
 </div>
+<div class="robot-status" [ngSwitch]="robotStatus | async">
+  <ng-container *ngSwitchCase="true">
+    <i class="fas fa-robot" [style.color]="'green'"></i>
+  </ng-container>
+  <ng-container *ngSwitchCase="false">
+    <i class="fas fa-robot" [style.color]="'red'"></i>
+  </ng-container>
+  <i class="fas fa-robot" [style.color]="'yellow'" *ngSwitchDefault></i>
+</div>
 <div class="mqtt-status" [ngSwitch]="mqttStatus | async">
   <ng-container *ngSwitchCase="'CONNECTED'">
     <i class="fas fa-circle" [style.color]="'green'"></i>

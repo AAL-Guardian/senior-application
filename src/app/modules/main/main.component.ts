@@ -19,6 +19,7 @@ export class MainComponent implements OnInit {
   userActivity: any;
   userInactive: Subject<any> = new Subject();
   mqttStatus: Observable<string>;
+  robotStatus: Observable<boolean | undefined>;
   exitTimer: Date;
 
   constructor(
@@ -33,9 +34,12 @@ export class MainComponent implements OnInit {
 
   ngOnInit(): void {
     this.mqttStatus = this.mqttService.status();
+    this.robotStatus = this.mqttService.listenStatus().pipe(
+      untilDestroyed(this)
+    );
+    
     this.setTimeout();
     this.userInactive.subscribe(() => console.log('user has been inactive for 3s'));
-    this.mqttService.connect();
     this.reportService.listenReportRequests().pipe(
       untilDestroyed(this)
     ).subscribe();
