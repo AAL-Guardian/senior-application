@@ -6,6 +6,9 @@ export interface ReportQuestionOption {
   name: string;
   description: string;
   sort_order: number;
+  display_icon: string;
+  display_color: string;
+  is_yes_no: number;
 
   followup_question?: ReportQuestion;
   selected?: boolean;

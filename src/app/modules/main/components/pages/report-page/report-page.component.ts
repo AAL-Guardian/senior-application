@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
 import { ReportQuestionOption } from 'src/app/models/report-question-option.model';
 import { ReportQuestion } from 'src/app/models/report-question.model';
@@ -13,6 +14,7 @@ import { ReportService } from 'src/app/services/report.service';
   templateUrl: './report-page.component.html',
   styleUrls: ['./report-page.component.scss']
 })
+@UntilDestroy()
 export class ReportPageComponent implements OnInit, OnDestroy {
 
   reportSetup: ReportType;
@@ -45,7 +47,16 @@ export class ReportPageComponent implements OnInit, OnDestroy {
         this.reportService.markShownCurrent();
         this.changeCurrentQuestion(this.reportSetup.start_question);
       }
-    )
+    );
+    this.reportService.listenYesNoAnswers().pipe(
+      untilDestroyed(this)
+    ).subscribe(res => {
+      if (this.selected.length === 0) {
+        const question = this.currentQuestion.options.find(one => (one.is_yes_no === 1) === res.data.answer)
+        question.selected = true;
+        this.next();
+      }
+    });
   }
 
   changed(index: number) {
@@ -58,12 +69,15 @@ export class ReportPageComponent implements OnInit, OnDestroy {
 
   changeCurrentQuestion(question: ReportQuestion) {
     this.currentQuestion = question;
-    
+
     this.currentQuestion.description = this.currentQuestion.description.replace('{{ description }}', this.reportService.currentReport?.description || '')
     this.currentQuestion.description = this.currentQuestion.description.replace('{{ clientName }}', this.installationService.getData()?.clientName)
-  
+
     this.selected = this.currentQuestion.options.filter(one => one.selected);
-    this.reportService.changeQuestion(question);
+    this.reportService.changeQuestion(
+      question,
+      this.selected.length === 0 && this.currentQuestion.options.some(one => one.is_yes_no === null)
+    );
   }
 
   back() {
