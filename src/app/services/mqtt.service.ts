@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { IMqttClient, IMqttMessage, IMqttServiceOptions, MqttConnectionState, MqttService as RawService } from 'ngx-mqtt'
+import { IMqttClient, IMqttMessage, IMqttServiceOptions, MqttConnectionState, MqttService as RawService } from 'ngx-mqtt';
 import { Observable } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Question } from '../models/question.model';
-import { ReportRequest } from '../models/report-request.model';
 import { InstallationService } from './installation.service';
 
 @Injectable({
@@ -137,13 +135,13 @@ export class MqttService {
     return this.rawService.observe(`${robotTopic}/${topic}`)
   }
 
-  send(topic: string, data: any) {
+  send(topic: string, data?: any) {
     this.connect();
     const { robotTopic } = this.installationService.getData();
 
     this.rawService.publish(`${robotTopic}/${topic}`, JSON.stringify(data)).subscribe(
-      res => console.log(res),
-      err => console.error(err)
+      null,
+      err => { console.error(err) },
     );
   }
 
@@ -155,7 +153,7 @@ export class MqttService {
     return this.send('answer', text);
   }
 
-  sendEvent(type: string, data: any) {
+  sendEvent(type: string, data?: any) {
     this.send(`senior-app/events/${type}`, data);
   }
 

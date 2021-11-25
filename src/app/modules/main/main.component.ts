@@ -1,12 +1,11 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, Subject } from 'rxjs';
+import { fromEvent, merge, Observable, Subject, tap, throttleTime } from 'rxjs';
 import { InstallationService } from 'src/app/services/installation.service';
 import { MqttService } from 'src/app/services/mqtt.service';
 import { ReportService } from 'src/app/services/report.service';
-
 
 @Component({
   selector: 'app-main',
@@ -21,6 +20,7 @@ export class MainComponent implements OnInit {
   mqttStatus: Observable<string>;
   robotStatus: Observable<boolean | undefined>;
   exitTimer: Date;
+  interactionSubject: Observable<Event>
 
   constructor(
     private mqttService: MqttService,
@@ -38,18 +38,35 @@ export class MainComponent implements OnInit {
       untilDestroyed(this)
     );
     
-    this.setTimeout();
-    this.userInactive.subscribe(() => console.log('user has been inactive for 3s'));
     this.reportService.listenReportRequests().pipe(
       untilDestroyed(this)
     ).subscribe();
+    
+    this.monitorUserActivity();
+  }
+
+  monitorUserActivity() {
+    this.setTimeout();
+    this.userInactive.subscribe(() => console.log('user has been inactive for 3s'));
+
+    merge(
+      fromEvent(window, 'mousemove'),
+      fromEvent(window, 'click'),
+      fromEvent(window, 'tap'),
+      fromEvent(window, 'scroll'),
+    ).pipe(
+      untilDestroyed(this),
+      throttleTime(2000, undefined, { leading: true, trailing: true }),
+      tap(evt => console.log(evt))
+    ).subscribe(evt => this.refreshUserState(evt));
   }
 
   setTimeout() {
     this.userActivity = setTimeout(() => this.userInactive.next(undefined), 3000);
   }
 
-  @HostListener('window:mousemove') refreshUserState() {
+  refreshUserState(event: Event) {
+    this.mqttService.sendEvent('senior_interaction')
     clearTimeout(this.userActivity);
     this.setTimeout();
   }
