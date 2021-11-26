@@ -57,7 +57,6 @@ export class MainComponent implements OnInit {
     ).pipe(
       untilDestroyed(this),
       throttleTime(2000, undefined, { leading: true, trailing: true }),
-      tap(evt => console.log(evt))
     ).subscribe(evt => this.refreshUserState(evt));
   }
 
