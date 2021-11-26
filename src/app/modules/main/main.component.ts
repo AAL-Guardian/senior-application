@@ -50,7 +50,6 @@ export class MainComponent implements OnInit {
     this.userInactive.subscribe(() => console.log('user has been inactive for 3s'));
 
     merge(
-      fromEvent(window, 'mousemove'),
       fromEvent(window, 'click'),
       fromEvent(window, 'tap'),
       fromEvent(window, 'scroll'),
@@ -65,7 +64,7 @@ export class MainComponent implements OnInit {
   }
 
   refreshUserState(event: Event) {
-    this.mqttService.sendEvent('senior_interaction')
+    this.mqttService.sendEvent('senior_interaction', { type: event.type })
     clearTimeout(this.userActivity);
     this.setTimeout();
   }
