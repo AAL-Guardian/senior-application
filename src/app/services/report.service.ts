@@ -47,13 +47,6 @@ export class ReportService {
 
   start(report_request: ReportRequest) {
     this.currentReport = report_request;
-    this.cancelTimer();
-    this.reportTimeout = timer(60 * 1000 * 3).subscribe(
-      end => {
-        this.currentReport = undefined;
-        this.router.navigateByUrl('/')
-      }
-    )
     this.router.navigateByUrl('report');
   }
 
@@ -72,15 +65,7 @@ export class ReportService {
     });
   }
 
-  cancelTimer() {
-    if(this.reportTimeout) {
-      this.reportTimeout.unsubscribe();
-      this.reportTimeout = undefined;
-    }
-  }
-
   endReport() {
-    this.cancelTimer();
     this.currentReport = undefined;
   }
 

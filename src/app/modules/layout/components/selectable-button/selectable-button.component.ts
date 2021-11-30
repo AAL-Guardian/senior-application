@@ -19,6 +19,9 @@ export class SelectableButtonComponent implements OnInit {
   @Input()
   icon: string;
 
+  @Input()
+  color: string;
+
   constructor() { }
 
   ngOnInit(): void {

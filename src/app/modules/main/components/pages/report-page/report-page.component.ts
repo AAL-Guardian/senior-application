@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
+import { Subscription, timer } from 'rxjs';
 import { ReportQuestionOption } from 'src/app/models/report-question-option.model';
 import { ReportQuestion } from 'src/app/models/report-question.model';
 import { ReportType } from 'src/app/models/report-type.model';
@@ -23,7 +24,7 @@ export class ReportPageComponent implements OnInit, OnDestroy {
   pastQuestions = [];
   confirmation: string;
   confirmationMessage: string;
-
+  reportTimeout: Subscription;
   selected: ReportQuestionOption[];
 
   constructor(
@@ -37,6 +38,7 @@ export class ReportPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (!this.reportService.currentReport) {
       this.router.navigateByUrl('/');
+      return;
     }
     this.translateService.get('Question.Confirmation').subscribe(
       tr => this.confirmationMessage = tr
@@ -60,7 +62,6 @@ export class ReportPageComponent implements OnInit, OnDestroy {
   }
 
   changed(index: number) {
-    this.reportService.cancelTimer();
     if (!this.currentQuestion?.multiple_answers && this.currentQuestion?.options[index].selected) {
       this.currentQuestion?.options.filter((one, i) => i !== index).forEach(one => one.selected = false)
     }
@@ -76,13 +77,14 @@ export class ReportPageComponent implements OnInit, OnDestroy {
     this.selected = this.currentQuestion.options.filter(one => one.selected);
     this.reportService.changeQuestion(
       question,
-      this.selected.length === 0 && this.currentQuestion.options.some(one => one.is_yes_no === null)
+      this.selected.length === 0 && !this.currentQuestion.options.some(one => one.is_yes_no === null)
     );
   }
 
   back() {
+    this.restartTimer();
     if (this.pastQuestions?.length === 0) {
-      this.router.navigate(['/']);
+      this.end();
       return;
     }
     this.confirmation = undefined;
@@ -90,6 +92,7 @@ export class ReportPageComponent implements OnInit, OnDestroy {
   }
 
   next() {
+    this.restartTimer();
     this.pastQuestions.push(this.currentQuestion);
     const followedOption = this.currentQuestion.options.filter(one => one.selected && one.followup_question).pop();
 
@@ -97,12 +100,32 @@ export class ReportPageComponent implements OnInit, OnDestroy {
       this.changeCurrentQuestion(followedOption?.followup_question);
     } else {
       this.currentQuestion = undefined;
-      this.confirmation = this.confirmationMessage
-      this.mqttService.showMessage(this.confirmationMessage);
+      this.send();
+      // this.confirmation = this.confirmationMessage
+      // this.mqttService.showMessage(this.confirmationMessage);
     }
   }
 
+  restartTimer() {
+    if (this.reportTimeout) {
+      this.reportTimeout.unsubscribe();
+    }
+    this.reportTimeout = timer(60 * 1000 * 0.5).pipe(
+      untilDestroyed(this)
+    ).subscribe(
+      () => this.timeout()
+    )
+  }
+
+  timeout() {
+    if (this.reportSetup.start_question.options.some(one => one.selected)) {
+      this.reportService.sendAnswers(this.reportSetup, this.reportService.currentReport);
+    }
+    this.end();
+  }
+
   end() {
+    this.reportService.endReport();
     this.router.navigate(['/']);
   }
 
@@ -111,7 +134,7 @@ export class ReportPageComponent implements OnInit, OnDestroy {
       message => {
         this.mqttService.showMessage(message);
         this.reportService.sendAnswers(this.reportSetup, this.reportService.currentReport);
-        this.router.navigate(['/']);
+        this.end();
       }
     )
   }
