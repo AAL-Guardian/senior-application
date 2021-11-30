@@ -110,7 +110,7 @@ export class ReportPageComponent implements OnInit, OnDestroy {
     if (this.reportTimeout) {
       this.reportTimeout.unsubscribe();
     }
-    this.reportTimeout = timer(60 * 1000 * 0.5).pipe(
+    this.reportTimeout = timer(60 * 1000 * 3).pipe(
       untilDestroyed(this)
     ).subscribe(
       () => this.timeout()
@@ -118,7 +118,7 @@ export class ReportPageComponent implements OnInit, OnDestroy {
   }
 
   timeout() {
-    if (this.reportSetup.start_question.options.some(one => one.selected)) {
+    if (this.reportSetup.start_question?.options.some(one => one.selected)) {
       this.reportService.sendAnswers(this.reportSetup, this.reportService.currentReport);
     }
     this.end();
