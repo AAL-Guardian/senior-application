@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiEndpoint: "https://api.guardian.jef.it/prod"
+  apiEndpoint: "https://api.guardian.jef.it/dev"
 };

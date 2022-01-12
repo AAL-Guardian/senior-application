@@ -28,7 +28,7 @@ jobs:
         npm i
         git lfs fetch
         git lfs checkout
-        npx ng build --prod
+        npx ng build --configuration=development
       env:
         CI: true
     - name: Save Build
