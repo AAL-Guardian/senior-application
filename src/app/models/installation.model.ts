@@ -1,4 +1,5 @@
 export interface Installation {
+  authorizer: string;
   clientId: string;
   token: string;
   endpoint: string;

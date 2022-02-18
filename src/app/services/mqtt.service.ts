@@ -35,7 +35,7 @@ export class MqttService {
       const data = this.installationService.getData();
       this.rawService.connect({
         protocol: 'wss',
-        path: '/mqtt?x-amz-customauthorizer-name=GuardianAuthorizerDev',
+        path: '/mqtt?x-amz-customauthorizer-name=' + data.authorizer,
         hostname: data.endpoint,
         clientId: data.clientId,
         reconnectPeriod: 1000 * 5,
