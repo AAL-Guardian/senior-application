@@ -39,7 +39,7 @@ export class MqttService {
         hostname: data.endpoint,
         protocolVersion: 4,
         clientId: data.clientId,
-        reconnectPeriod: 1000 * 50,
+        reconnectPeriod: 1000 * 20,
         transformWsUrl(url: string, options: IMqttServiceOptions, client: IMqttClient) {
           options.username = data.token;
           return url;
