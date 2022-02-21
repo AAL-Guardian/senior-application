@@ -37,8 +37,9 @@ export class MqttService {
         protocol: 'wss',
         path: '/mqtt?x-amz-customauthorizer-name=' + data.authorizer,
         hostname: data.endpoint,
+        protocolVersion: 4,
         clientId: data.clientId,
-        reconnectPeriod: 1000 * 5,
+        reconnectPeriod: 1000 * 50,
         transformWsUrl(url: string, options: IMqttServiceOptions, client: IMqttClient) {
           options.username = data.token;
           return url;
