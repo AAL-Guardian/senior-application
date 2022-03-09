@@ -1,5 +1,6 @@
 {
   "Back": "Indietro",
+  "HomeButton": "Menu",
   "Home": {
     "Title": "Ciao {{ clientName }}, cosa vuoi fare oggi?",
     "SeeAppointments": "Voglio vedere i miei appuntamenti di oggi",
@@ -7,11 +8,8 @@
   },
   "Question": {
     "Confirmation": "Vuoi confermare questo rapporto?",
-    "ThankYou": "Grazie per questo rapporto",
+    "ThankYou": "Grazie la risposta",
     "Send": "Invia"
-  },
-  "Report": {
-    "ThankYou": "Grazie per questo rapporto"
   },
   "Volume": {
     "Title": "Qui puoi impostare il volume di Misty",

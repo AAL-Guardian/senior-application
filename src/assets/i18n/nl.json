@@ -1,5 +1,6 @@
 {
   "Back": "Terug",
+  "HomeButton": "Menu",
   "Home": {
     "Title": "Hallo {{ clientName }}, wat wilt u vandaag doen?",
     "SeeAppointments": "Ik wil graag mijn afspraken van vandaag zien",
@@ -7,7 +8,7 @@
   },
   "Question": {
     "Confirmation": "Wilt u deze melding bevestigen?",
-    "ThankYou": "Bedankt voor dit verslag",
+    "ThankYou": "Bedankt dat u het me laat weten",
     "Send": "Versturen"
   },
   "Volume": {

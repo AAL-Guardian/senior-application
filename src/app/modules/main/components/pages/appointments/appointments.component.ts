@@ -29,7 +29,7 @@ export class AppointmentsComponent implements OnInit {
 
     this.appointmentService.getTodayAppointments().subscribe(
       appointments => {
-        this.translate.get('Appointments.Title', { appointmentsNumber: this.appointmentsNumber }).subscribe(
+        this.translate.get('Appointments.Title', this.appointmentsNumber).subscribe(
           translation => {
             this.mqttService.showMessage(translation);
             this.appointments = appointments

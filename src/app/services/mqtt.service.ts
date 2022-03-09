@@ -28,6 +28,11 @@ export class MqttService {
     const onDisconnect = this.rawService.onEnd.subscribe(
       () => this.connected = false
     );
+    const onError = this.rawService.onError.subscribe(
+      (err) => {
+        console.error(err);
+      }
+    )
   }
 
   connect() {
