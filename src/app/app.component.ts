@@ -2,6 +2,8 @@ import { ApplicationRef, Component, OnInit } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { concat, interval } from 'rxjs';
 import { first } from 'rxjs/operators';
+import { add, addHours, differenceInMilliseconds, formatISO, isAfter, isSameDay, isToday, parse, parseISO, startOfDay } from 'date-fns';
+import { format } from 'path';
 
 @Component({
   selector: 'app-root',
@@ -35,5 +37,14 @@ export class AppComponent implements OnInit {
       console.log('old version was', event.previous);
       console.log('new version is', event.current);
     });
+
+    
+    setInterval(() => {
+      const lastReboot = localStorage.getItem('lastReboot');
+      if(!lastReboot || !isSameDay(parseISO(lastReboot), new Date)) {
+        localStorage.setItem('lastReboot', formatISO(new Date));
+        window.location.reload();
+      }
+    }, 60 * 60 * 1000);
   }
 }
