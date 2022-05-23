@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IMqttClient, IMqttMessage, IMqttServiceOptions, MqttConnectionState, MqttService as RawService } from 'ngx-mqtt';
-import { Observable } from 'rxjs';
-import { map, startWith, tap } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { map, startWith, tap, share } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Question } from '../models/question.model';
 import { InstallationService } from './installation.service';
@@ -11,22 +11,31 @@ import { InstallationService } from './installation.service';
 })
 export class MqttService {
 
-  connected = false;
+  connecting = false;
 
   constructor(
     private rawService: RawService,
     private installationService: InstallationService,
   ) {
+    let messageSubscription: Subscription;
     const onConnect = this.rawService.onConnect.subscribe(
       () => {
-        this.connected = true;
+        this.connecting = true;
+        this.sendStatus('connecting');
         if (!environment.production) {
-          this.message().subscribe(log => console.log(log));
+          if(!messageSubscription) {
+            messageSubscription = this.message().subscribe(log => console.log(log));
+          }
+          
         }
       }
     );
     const onDisconnect = this.rawService.onEnd.subscribe(
-      () => this.connected = false
+      (reason) => {
+        this.connecting = false;
+        messageSubscription.unsubscribe();
+        messageSubscription = undefined;
+      }
     );
     const onError = this.rawService.onError.subscribe(
       (err) => {
@@ -36,7 +45,7 @@ export class MqttService {
   }
 
   connect() {
-    if (!this.connected) {
+    if (!this.connecting) {
       const data = this.installationService.getData();
       this.rawService.connect({
         protocol: 'wss',
@@ -45,11 +54,20 @@ export class MqttService {
         protocolVersion: 4,
         clientId: data.clientId,
         reconnectPeriod: 1000 * 20,
+        will: {
+          retain: true,
+          topic: `${this.robotTopic}/senior-app/status`,
+          qos: 0,
+          payload: JSON.stringify({
+            status: 'disconnecting'
+          })
+        },
         transformWsUrl(url: string, options: IMqttServiceOptions, client: IMqttClient) {
           options.username = data.token;
           return url;
         }
       });
+      this.connecting = true;
     }
   }
 
@@ -85,42 +103,8 @@ export class MqttService {
     )
   }
 
-
-
-  /**
-   * @deprecated
-   */
-  listenQuestions() {
-    return this.listen(`question`).pipe(
-      map((res: IMqttMessage) => JSON.parse(res.payload.toString()) as Question),
-      tap(res => console.log(res))
-    )
-  }
-
-  /**
-   * @deprecated
-   */
-  listenAnswers() {
-    return this.listen('answer').pipe(
-      map((res: IMqttMessage) => JSON.parse(res.payload.toString()) as string),
-      tap(res => console.log(res))
-    )
-  }
-
-  getShadow() {
-    this.connect();
-    const data = this.installationService.getData();
-    this.rawService.publish(`$aws/things/${data.robotTopic}/shadow/get`, '').subscribe();
-  }
-
-  listenShadow() {
-    this.connect();
-    const data = this.installationService.getData();
-    return this.rawService.observe(`$aws/things/${data.robotTopic}/shadow`)
-  }
-
   listenStatus() {
-    return this.listen('status').pipe(
+    return this. listen('status').pipe(
       map(res => JSON.parse(res.payload.toString()) as { alive?: boolean }),
       startWith({ alive: undefined }),
       map(res => res.alive)
@@ -131,24 +115,27 @@ export class MqttService {
     return this.rawService.messages.pipe(
       map((value: IMqttMessage, index) => {
         return value.topic + '-' + index.toFixed() + ':' + value.payload.toString()
-      })
+      }),
+      share()
     );
+  }
+
+  private get robotTopic() {
+    const { robotTopic } = this.installationService.getData();
+    return robotTopic;
   }
 
   listen(topic: string) {
     this.connect();
-    const { robotTopic } = this.installationService.getData();
-    return this.rawService.observe(`${robotTopic}/${topic}`)
+    return this.rawService.observe(`${this.robotTopic}/${topic}`)
   }
 
   send(topic: string, data?: any) {
     this.connect();
-    const { robotTopic } = this.installationService.getData();
-
-    this.rawService.publish(`${robotTopic}/${topic}`, JSON.stringify(data)).subscribe(
-      null,
-      err => { console.error(err) },
-    );
+    this.rawService.publish(`${this.robotTopic}/${topic}`, JSON.stringify(data)).subscribe({
+      next: () => null,
+      error: err => { console.error(err) },
+    });
   }
 
   sendQuestion(data: Question) {
@@ -161,6 +148,18 @@ export class MqttService {
 
   sendEvent(type: string, data?: any) {
     this.send(`senior-app/events/${type}`, data);
+  }
+
+  sendStatus(status: string) {
+    this.connect();
+    this.rawService.publish(`${this.robotTopic}/senior-app/status`, JSON.stringify({
+      status
+    }), {
+      retain: true
+    }).subscribe({
+      next: () => null,
+      error: err => { console.error(err) },
+    });
   }
 
   showMessage(text: string) {

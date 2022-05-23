@@ -1,17 +1,16 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { HomeComponent } from './components/pages/home/home.component';
+import { TranslateModule } from '@ngx-translate/core';
 import { LayoutModule } from '../layout/layout.module';
+import { AppointmentsComponent } from './components/pages/appointments/appointments.component';
+import { HomeComponent } from './components/pages/home/home.component';
+import { ReportPageComponent } from './components/pages/report-page/report-page.component';
+import { SleepComponent } from './components/pages/sleep/sleep.component';
+import { VolumeSettingComponent } from './components/pages/volume-setting/volume-setting.component';
 import { WellbeingComponent } from './components/pages/wellbeing/wellbeing.component';
 import { MainComponent } from './main.component';
-import { ReportPageComponent } from './components/pages/report-page/report-page.component';
-import { TranslateModule } from '@ngx-translate/core';
-import { VolumeSettingComponent } from './components/pages/volume-setting/volume-setting.component';
-import { AppointmentsComponent } from './components/pages/appointments/appointments.component';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptor } from 'src/app/interceptors/auth.interceptor';
 
 const routes = [
   {
@@ -36,6 +35,10 @@ const routes = [
       }
     ]
   },
+  {
+    path: 'sleep',
+    component: SleepComponent,
+  }
 
 ]
 
@@ -47,7 +50,8 @@ const routes = [
     WellbeingComponent,
     ReportPageComponent,
     VolumeSettingComponent,
-    AppointmentsComponent
+    AppointmentsComponent,
+    SleepComponent
   ],
   imports: [
     CommonModule,

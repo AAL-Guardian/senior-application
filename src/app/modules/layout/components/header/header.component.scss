@@ -1,8 +1,11 @@
+.end {
+  background-color: #4F4F4F;
+}
 .button_app {
   cursor: pointer;
+  display: inline-block;
   &.home {
     width: auto;
-    background-color: #4F4F4F;
     padding: 25px 25px 25px 80px;
     color: #fff;
     border-radius: 0;
@@ -19,6 +22,26 @@
       position: absolute;
       top: 17px;
       left: 20px;
+    }
+  }
+}
+
+.sleep {
+  height: 100%;
+  display: inline-block;
+  width: unset;
+  padding: 20px;
+  cursor: pointer;
+  a {
+    background-color: transparent;
+    border: 1px solid white;
+    cursor: pointer;
+    border-radius: 3px;
+    padding: 12px;
+    .fas {
+      cursor: pointer;
+      font-size: 20px;
+      color: white;
     }
   }
 }

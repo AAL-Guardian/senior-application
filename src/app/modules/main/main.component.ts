@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
-import { fromEvent, merge, Observable, Subject, tap, throttleTime } from 'rxjs';
+import { fromEvent, merge, Observable, Subject, throttleTime } from 'rxjs';
 import { InstallationService } from 'src/app/services/installation.service';
 import { MqttService } from 'src/app/services/mqtt.service';
 import { ReportService } from 'src/app/services/report.service';
@@ -41,7 +41,7 @@ export class MainComponent implements OnInit {
     this.reportService.listenReportRequests().pipe(
       untilDestroyed(this)
     ).subscribe();
-    
+    this.mqttService.sendStatus('awake');
     this.monitorUserActivity();
   }
 

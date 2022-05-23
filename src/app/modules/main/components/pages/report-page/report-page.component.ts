@@ -9,6 +9,7 @@ import { ReportType } from 'src/app/models/report-type.model';
 import { InstallationService } from 'src/app/services/installation.service';
 import { MqttService } from 'src/app/services/mqtt.service';
 import { ReportService } from 'src/app/services/report.service';
+import { ReportFeedback } from '../../../../../models/report-feedback.model';
 
 @Component({
   selector: 'app-report-page',
@@ -27,6 +28,9 @@ export class ReportPageComponent implements OnInit, OnDestroy {
   reportTimeout: Subscription;
   selected: ReportQuestionOption[];
 
+  finalFeedback?: ReportFeedback;
+  fallbackFeedback?: string;
+
   constructor(
     private reportService: ReportService,
     private mqttService: MqttService,
@@ -40,6 +44,9 @@ export class ReportPageComponent implements OnInit, OnDestroy {
       this.router.navigateByUrl('/');
       return;
     }
+    this.translateService.get('Question.ThankYou').subscribe(
+      fallbackFeedback => this.fallbackFeedback = fallbackFeedback
+    );
     this.translateService.get('Question.Confirmation').subscribe(
       tr => this.confirmationMessage = tr
     )
@@ -94,6 +101,16 @@ export class ReportPageComponent implements OnInit, OnDestroy {
   next() {
     this.restartTimer();
     this.pastQuestions.push(this.currentQuestion);
+
+    const feedbacks = this.currentQuestion.options.filter(
+      one => one.selected
+    ).filter(
+      one => one.feedback
+    ).reduce((all, one) => [...all, ...one.feedback], [])
+    if (feedbacks.length > 0) {
+      this.finalFeedback = feedbacks[Math.floor(Math.random() * feedbacks.length)];
+    }
+
     const followedOption = this.currentQuestion.options.filter(one => one.selected && one.followup_question).pop();
 
     if (this.reportService.currentReport.show_followups && followedOption?.followup_question) {
@@ -130,13 +147,15 @@ export class ReportPageComponent implements OnInit, OnDestroy {
   }
 
   send() {
-    this.translateService.get('Question.ThankYou').subscribe(
-      message => {
-        this.mqttService.showMessage(message);
-        this.reportService.sendAnswers(this.reportSetup, this.reportService.currentReport);
-        this.end();
-      }
-    )
+    if (this.finalFeedback) {
+      this.mqttService.showMessage(this.finalFeedback.sentence);
+    } else {
+      this.mqttService.showMessage(this.fallbackFeedback);
+    }
+
+    this.reportService.sendAnswers(this.reportSetup, this.reportService.currentReport);
+    this.end();
+
   }
 
   ngOnDestroy() {

@@ -32,6 +32,10 @@ export class HeaderComponent implements OnInit {
     )
   }
 
+  sleep() {
+    this.router.navigateByUrl('/sleep')
+  }
+
   home() {
     this.router.navigateByUrl('/');
   }
