@@ -29,6 +29,7 @@ export class ReportPageComponent implements OnInit, OnDestroy {
   selected: ReportQuestionOption[];
 
   finalFeedback?: ReportFeedback;
+  finalEmotion?: string;
   fallbackFeedback?: string;
 
   constructor(
@@ -102,11 +103,25 @@ export class ReportPageComponent implements OnInit, OnDestroy {
     this.restartTimer();
     this.pastQuestions.push(this.currentQuestion);
 
-    const feedbacks = this.currentQuestion.options.filter(
+    const selectedOptions = this.currentQuestion.options.filter(
       one => one.selected
-    ).filter(
+    );
+
+    const emotions = selectedOptions
+      .map(
+        one => one.emotion
+      )
+      .filter(
+        emotion => emotion
+      );
+    if(emotions.length > 0) {
+      this.finalEmotion = emotions[Math.floor(Math.random() * emotions.length)];
+    }
+
+    const feedbacks = selectedOptions.filter(
       one => one.feedback
-    ).reduce((all, one) => [...all, ...one.feedback], [])
+    ).reduce((all, one) => [...all, ...one.feedback], []);
+
     if (feedbacks.length > 0) {
       this.finalFeedback = feedbacks[Math.floor(Math.random() * feedbacks.length)];
     }

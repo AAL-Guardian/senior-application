@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
-import { fromEvent, merge, Observable, Subject, throttleTime } from 'rxjs';
+import { filter, fromEvent, map, merge, Observable, shareReplay, Subject, throttleTime, withLatestFrom } from 'rxjs';
 import { InstallationService } from 'src/app/services/installation.service';
 import { MqttService } from 'src/app/services/mqtt.service';
 import { ReportService } from 'src/app/services/report.service';
@@ -19,6 +19,7 @@ export class MainComponent implements OnInit {
   userInactive: Subject<any> = new Subject();
   mqttStatus: Observable<string>;
   robotStatus: Observable<boolean | undefined>;
+  systemStatus: Observable<'asleep' | 'awake'>;
   exitTimer: Date;
   interactionSubject: Observable<Event>
 
@@ -37,11 +38,20 @@ export class MainComponent implements OnInit {
     this.robotStatus = this.mqttService.listenStatus().pipe(
       untilDestroyed(this)
     );
-    
+
+    this.systemStatus = this.mqttService.listenSystemStatus().pipe(
+      untilDestroyed(this),
+    );
+
     this.reportService.listenReportRequests().pipe(
-      untilDestroyed(this)
-    ).subscribe();
-    this.mqttService.sendStatus('awake');
+      untilDestroyed(this),
+      withLatestFrom(this.systemStatus),
+      filter(([reportRequest, systemStatus]) => systemStatus === 'awake'),
+      map(([reportRequest]) => reportRequest)
+    ).subscribe(
+      reportRequest => this.reportService.start(reportRequest)
+    );
+
     this.monitorUserActivity();
   }
 
@@ -74,7 +84,7 @@ export class MainComponent implements OnInit {
   }
 
   mouseup() {
-    if( ( (new Date).getTime() - this.exitTimer.getTime() ) > 1000 * 5 ) {
+    if (((new Date).getTime() - this.exitTimer.getTime()) > 1000 * 5) {
       this.installationService.uninstall();
       this.router.navigateByUrl('/installation')
     }

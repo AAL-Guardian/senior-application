@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription, timer } from 'rxjs';
-import { map, tap, filter } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { filter, map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { CloudEvent } from '../models/cloud-event.model';
 import { ReportQuestion } from '../models/report-question.model';
@@ -29,7 +29,6 @@ export class ReportService {
     return this.mqttService.listen(`senior-app/report-request`).pipe(
       map(res => JSON.parse(res.payload.toString()) as ReportRequest),
       tap(res => console.log(res)),
-      tap(res => this.start(res))
     )
   }
 

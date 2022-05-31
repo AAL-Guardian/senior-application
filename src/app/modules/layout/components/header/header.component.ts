@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { interval } from 'rxjs';
+import { MqttService } from '../../../../services/mqtt.service';
 
 @Component({
   selector: 'app-header',
@@ -21,7 +22,8 @@ export class HeaderComponent implements OnInit {
   back = new EventEmitter<void>();
 
   constructor(
-    private router: Router
+    private router: Router,
+    private mqttService: MqttService
   ) { }
 
   ngOnInit(): void {
@@ -33,7 +35,7 @@ export class HeaderComponent implements OnInit {
   }
 
   sleep() {
-    this.router.navigateByUrl('/sleep')
+    this.mqttService.sendSystemStatus('asleep');
   }
 
   home() {

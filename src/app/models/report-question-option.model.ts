@@ -10,6 +10,7 @@ export interface ReportQuestionOption {
   display_icon: string;
   display_color: string;
   is_yes_no: number;
+  emotion?: string;
 
   followup_question?: ReportQuestion;
   feedback?: ReportFeedback[];

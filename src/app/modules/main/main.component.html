@@ -1,4 +1,5 @@
-<router-outlet></router-outlet>
+<app-sleep *ngIf="(systemStatus | async) === 'asleep'"></app-sleep>
+<router-outlet *ngIf="(systemStatus | async) === 'awake'"></router-outlet>
 <div
   class="exit"
   [class.mouse-down]="exitTimer"

@@ -6,14 +6,13 @@ import { MqttService } from '../../../../../services/mqtt.service';
   templateUrl: './sleep.component.html',
   styleUrls: ['./sleep.component.scss']
 })
-export class SleepComponent implements OnInit {
+export class SleepComponent {
 
   constructor(
     private mqttService: MqttService
   ) { }
 
-  ngOnInit(): void {
-    this.mqttService.sendStatus('asleep')
+  awake() {
+    this.mqttService.sendSystemStatus('awake');
   }
-
 }

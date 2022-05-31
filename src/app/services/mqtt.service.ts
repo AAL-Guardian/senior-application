@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IMqttClient, IMqttMessage, IMqttServiceOptions, MqttConnectionState, MqttService as RawService } from 'ngx-mqtt';
-import { Observable, Subscription } from 'rxjs';
-import { map, startWith, tap, share } from 'rxjs/operators';
+import { Observable, race, Subscription, timer } from 'rxjs';
+import { filter, map, share, startWith, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Question } from '../models/question.model';
 import { InstallationService } from './installation.service';
@@ -12,6 +12,7 @@ import { InstallationService } from './installation.service';
 export class MqttService {
 
   connecting = false;
+  lastStatus?: 'awake' | 'asleep';
 
   constructor(
     private rawService: RawService,
@@ -21,12 +22,11 @@ export class MqttService {
     const onConnect = this.rawService.onConnect.subscribe(
       () => {
         this.connecting = true;
-        this.sendStatus('connecting');
         if (!environment.production) {
-          if(!messageSubscription) {
+          if (!messageSubscription) {
             messageSubscription = this.message().subscribe(log => console.log(log));
           }
-          
+
         }
       }
     );
@@ -56,10 +56,10 @@ export class MqttService {
         reconnectPeriod: 1000 * 20,
         will: {
           retain: true,
-          topic: `${this.robotTopic}/senior-app/status`,
+          topic: `${this.robotTopic}/senior-app/connection`,
           qos: 0,
           payload: JSON.stringify({
-            status: 'disconnecting'
+            alive: false
           })
         },
         transformWsUrl(url: string, options: IMqttServiceOptions, client: IMqttClient) {
@@ -68,6 +68,15 @@ export class MqttService {
         }
       });
       this.connecting = true;
+
+      this.rawService.publish(`${this.robotTopic}/senior-app/connection`, JSON.stringify({
+        alive: true
+      }), {
+        retain: true
+      }).subscribe({
+        next: () => null,
+        error: err => { console.error(err) },
+      });
     }
   }
 
@@ -104,7 +113,7 @@ export class MqttService {
   }
 
   listenStatus() {
-    return this. listen('status').pipe(
+    return this.listen('status').pipe(
       map(res => JSON.parse(res.payload.toString()) as { alive?: boolean }),
       startWith({ alive: undefined }),
       map(res => res.alive)
@@ -150,9 +159,9 @@ export class MqttService {
     this.send(`senior-app/events/${type}`, data);
   }
 
-  sendStatus(status: string) {
+  sendSystemStatus(status: 'asleep' | 'awake') {
     this.connect();
-    this.rawService.publish(`${this.robotTopic}/senior-app/status`, JSON.stringify({
+    this.rawService.publish(`${this.robotTopic}/system/status`, JSON.stringify({
       status
     }), {
       retain: true
@@ -162,7 +171,31 @@ export class MqttService {
     });
   }
 
+  listenSystemStatus() {
+    this.connect();
+    return race(
+      this.listen('system/status'),
+      timer(3000)
+    ).pipe(
+      tap(status => {
+        if (!status) {
+          this.sendSystemStatus('awake');
+        }
+      }),
+      filter(status => status !== 0),
+      map(message => message as IMqttMessage),
+      map(message => message.payload.toString()),
+      map(message => JSON.parse(message)),
+      map(status => status.status),
+      share()
+    );
+  }
+
   showMessage(text: string) {
     this.sendEvent('showing_message', { text });
+  }
+  
+  showMessageEmotion(text: string, emotion?: string) {
+    this.sendEvent('showing_message_emotion', { text, emotion });
   }
 }
