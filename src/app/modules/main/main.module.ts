@@ -6,6 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LayoutModule } from '../layout/layout.module';
 import { AppointmentsComponent } from './components/pages/appointments/appointments.component';
 import { HomeComponent } from './components/pages/home/home.component';
+import { PreferencesComponent } from './components/pages/preferences/preferences.component';
 import { ReportPageComponent } from './components/pages/report-page/report-page.component';
 import { SleepComponent } from './components/pages/sleep/sleep.component';
 import { VolumeSettingComponent } from './components/pages/volume-setting/volume-setting.component';
@@ -32,6 +33,9 @@ const routes = [
       }, {
         path: 'appointments',
         component: AppointmentsComponent
+      }, {
+        path: 'preferences',
+        component: PreferencesComponent
       }
     ]
   },
@@ -51,7 +55,8 @@ const routes = [
     ReportPageComponent,
     VolumeSettingComponent,
     AppointmentsComponent,
-    SleepComponent
+    SleepComponent,
+    PreferencesComponent
   ],
   imports: [
     CommonModule,

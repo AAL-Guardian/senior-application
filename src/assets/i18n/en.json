@@ -4,7 +4,8 @@
   "Home": {
     "Title": "Hello {{ clientName }}, what do you want to do today?",
     "SeeAppointments": "I want to see my appointments of today",
-    "ChangeVolume": "I want to change the volume of Misty"
+    "ChangeVolume": "I want to change the volume of Misty",
+    "ChangePreferences": "I want to change my preferences"
   },
   "Question": {
     "Confirmation": "Do you want to confirm this report?",
@@ -17,5 +18,10 @@
   },
   "Appointments": {
     "Title": "You have {{ appointmentsNumber }} appointments planned for today"
+  },
+  "Preferences": {
+    "Title": "Preferences",
+    "Male": "Uomo",
+    "Female": "Donna"
   }
 }

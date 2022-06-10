@@ -1,0 +1,42 @@
+<app-wrapper (back)="back()">
+  <app-wrapper-title>
+    {{ "Preferences.Title" | translate }}
+    <button class="btn float-right btn-lg" (click)="sendAudio()">
+      <i class="fas fa-volume-up"></i>
+    </button>
+  </app-wrapper-title>
+  <app-wrapper-body>
+    <div class="pt-5 p-4 w-100 d-flex align-items-center">
+      <i class="fas fa-volume-up fa-2x mr-2"></i>
+      <input step="1" type="range" [formControl]="volumeControl" />
+    </div>
+    <div class="pt-5 p-4 w-100 d-flex align-items-center">
+      <i class="fa fa-solid fa-2x mr-3"
+        [class.fa-gauge]="speedControl.value === 0 || speedControl.value === 1 || speedControl.value === 2"
+        [class.fa-gauge-high]="speedControl.value === 3 || speedControl.value === 4"
+      ></i>
+      <input step="1" max="4" type="range" [formControl]="speedControl" />
+    </div>
+    <div class="pt-5 p-4 w-100">
+      <div class="row justify-content-center">
+        <div class="col-4 mt-3">
+          <app-selectable-button
+            [selected]="genderControl.value === 'male'"
+            (selectedChange)="genderControl.patchValue('male')"
+            [text]="'Preferences.Male' | translate"
+          ></app-selectable-button>
+        </div>
+        <div class="col-4 mt-3">
+          <app-selectable-button
+          [selected]="genderControl.value === 'female'"
+          (selectedChange)="genderControl.patchValue('female')"
+            [text]="'Preferences.Female' | translate"
+          ></app-selectable-button>
+        </div>
+      </div>
+    </div>
+  </app-wrapper-body>
+  <app-wrapper-footer>
+    <button class="button_app greenish" routerLink="/">OK</button>
+  </app-wrapper-footer>
+</app-wrapper>
