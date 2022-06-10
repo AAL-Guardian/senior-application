@@ -38,10 +38,11 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     forkJoin([
       this.translationSevice.get('Home.ChangeVolume'),
+      this.translationSevice.get('Home.ChangePreferences'),
       this.translationSevice.get('Home.SeeAppointments'),
       this.reportService.listReportTypes()
     ]).subscribe(
-      ([volumeMessage, appointmentsMessage, list]) => this.list = [
+      ([volumeMessage, changePreferencesMessage, appointmentsMessage, list]) => this.list = [
         ...list
         .filter(one => !['MEDICATION', 'MEAL', 'ACTIVITY'].includes(one.name))
         .map(
@@ -56,6 +57,11 @@ export class HomeComponent implements OnInit {
           description: volumeMessage,
           type: "link",
           href: '/volume'
+        },{
+          selected: false,
+          description: changePreferencesMessage,
+          type: "link",
+          href: '/preferences'
         },
         {
           selected: false,
