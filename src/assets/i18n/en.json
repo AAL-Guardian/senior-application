@@ -21,7 +21,7 @@
   },
   "Preferences": {
     "Title": "Preferences",
-    "Male": "Uomo",
-    "Female": "Donna"
+    "Male": "Male",
+    "Female": "Female"
   }
 }

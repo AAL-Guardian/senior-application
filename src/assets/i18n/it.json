@@ -4,7 +4,8 @@
   "Home": {
     "Title": "Ciao {{ clientName }}, cosa vuoi fare oggi?",
     "SeeAppointments": "Voglio vedere i miei appuntamenti di oggi",
-    "ChangeVolume": "Voglio cambiare il volume di Misty"
+    "ChangeVolume": "Voglio cambiare il volume di Misty",
+    "ChangePreferences": "Voglio cambiare le mie preferenze"
   },
   "Question": {
     "Confirmation": "Vuoi confermare questo rapporto?",
@@ -17,5 +18,10 @@
   },
   "Appointments": {
     "Title": "Hai {{ appointmentsNumber }} appuntamenti in programma per oggi"
+  },
+  "Preferences": {
+    "Title": "Preferenze",
+    "Male": "Uomo",
+    "Female": "Donna"
   }
 }
