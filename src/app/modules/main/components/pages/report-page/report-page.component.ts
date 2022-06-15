@@ -163,9 +163,9 @@ export class ReportPageComponent implements OnInit, OnDestroy {
 
   send() {
     if (this.finalFeedback) {
-      this.mqttService.showMessage(this.finalFeedback.sentence);
+      this.mqttService.showMessageEmotion(this.finalFeedback.sentence, this.finalEmotion);
     } else {
-      this.mqttService.showMessage(this.fallbackFeedback);
+      this.mqttService.showMessageEmotion(this.fallbackFeedback, this.finalEmotion);
     }
 
     this.reportService.sendAnswers(this.reportSetup, this.reportService.currentReport);
