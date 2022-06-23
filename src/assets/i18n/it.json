@@ -1,6 +1,7 @@
 {
   "Back": "Indietro",
   "HomeButton": "Menu",
+  "Sleep": "Dormi",
   "Home": {
     "Title": "Ciao {{ clientName }}, cosa vuoi fare oggi?",
     "SeeAppointments": "Voglio vedere i miei appuntamenti di oggi",

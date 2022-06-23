@@ -9,18 +9,30 @@
     display: flex;
     text-align: center;
     align-self: center;
-
-    a {
-      background-color: transparent;
-      border: 1px solid white;
-      border-radius: 3px;
-      padding: 15px;
-      .fas {
-        color: white;
-        font-size: 35px;
-      }
-    }
     
+    .cont {
+      opacity: .5;
+      border: 1px solid white;
+      border-radius: 5px;
+      box-shadow: 0px 0px 20px 5px #fff;
+    }
+    // a {
+    //   background-color: transparent;
+    //   border: 1px solid white;
+    //   border-radius: 3px;
+    //   padding: 15px;
+    //   .fas {
+    //     color: white;
+    //     font-size: 35px;
+    //   }
+    // }
+    
+    button {
+      font-size: 200px;
+      line-height: 250px;
+      background-color: transparent;
+      color: white;
+    }
   }
 }
 

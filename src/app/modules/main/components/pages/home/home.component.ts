@@ -52,12 +52,13 @@ export class HomeComponent implements OnInit {
             type: "report" as ButtonType
           })
         ),
+        // {
+        //   selected: false,
+        //   description: volumeMessage,
+        //   type: "link",
+        //   href: '/volume'
+        // },
         {
-          selected: false,
-          description: volumeMessage,
-          type: "link",
-          href: '/volume'
-        },{
           selected: false,
           description: changePreferencesMessage,
           type: "link",

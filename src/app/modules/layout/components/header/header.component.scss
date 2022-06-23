@@ -32,12 +32,17 @@
   width: unset;
   padding: 20px;
   cursor: pointer;
+  text-transform: uppercase;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 700;
   a {
     background-color: transparent;
     border: 1px solid white;
     cursor: pointer;
     border-radius: 3px;
     padding: 12px;
+    margin-right: 12px;
     .fas {
       cursor: pointer;
       font-size: 20px;
