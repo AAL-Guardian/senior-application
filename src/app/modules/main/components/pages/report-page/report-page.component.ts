@@ -114,7 +114,7 @@ export class ReportPageComponent implements OnInit, OnDestroy {
       .filter(
         emotion => emotion
       );
-    if(emotions.length > 0) {
+    if (emotions.length > 0) {
       this.finalEmotion = emotions[Math.floor(Math.random() * emotions.length)];
     }
 
@@ -162,12 +162,13 @@ export class ReportPageComponent implements OnInit, OnDestroy {
   }
 
   send() {
+    let finalFeedback: string;
     if (this.finalFeedback) {
-      this.mqttService.showMessageEmotion(this.finalFeedback.sentence, this.finalEmotion);
+      finalFeedback = this.finalFeedback.sentence.replace('{{ clientName }}', this.installationService.getData()?.clientName);
     } else {
-      this.mqttService.showMessageEmotion(this.fallbackFeedback, this.finalEmotion);
+      finalFeedback = this.fallbackFeedback.replace('{{ clientName }}', this.installationService.getData()?.clientName);
     }
-
+    this.mqttService.showMessageEmotion(finalFeedback, this.finalEmotion);
     this.reportService.sendAnswers(this.reportSetup, this.reportService.currentReport);
     this.end();
 
