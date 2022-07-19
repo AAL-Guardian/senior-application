@@ -1,21 +1,29 @@
 {
   "Back": "Terug",
-  "HomeButton": "Menu",
+  "HomeButton": "Start",
+  "Sleep": "Slapen",
   "Home": {
-    "Title": "Hallo {{ clientName }}, wat wilt u vandaag doen?",
-    "SeeAppointments": "Ik wil graag mijn afspraken van vandaag zien",
-    "ChangeVolume": "Ik wil het volume van Misty aanpassen"
+    "Title": "Hallo{{ clientName }}, wat wilt vandaag doen?",
+    "SeeAppointments": "Ik wil mijn afspraken van vandaag zien",
+    "ChangeVolume": "Ik wil het volume van Misty wijzigen",
+    "ChangePreferences": "Ik wil mijn voorkeuren wijzigen"
   },
   "Question": {
-    "Confirmation": "Wilt u deze melding bevestigen?",
-    "ThankYou": "Bedankt dat u het me laat weten",
-    "Send": "Versturen"
+    "Confirmation": "Wilt u deze rapportage bevestigen?",
+    "ThankYou": "Bedankt dat u het me laat weten.",
+    "Send": "Verzenden"
   },
   "Volume": {
     "Title": "Hier kunt u het volume van Misty instellen",
-    "TestMessage": "Hallo {{ clientName }}"
+    "TestMessage": "Hallo{{ clientName }}"
   },
   "Appointments": {
-    "Title": "U heeft voor vandaag {{ appointmentsNumber }} afspraken gepland staan"
+    "Title": "U heeft {{ appointmentsNumber }} afspraken gepland voor vandaag"
+  },
+  "Preferences": {
+    "Title": "Voorkeuren",
+    "Male": "Man",
+    "Female": "Vrouw",
+    "Test": "Test"
   }
 }

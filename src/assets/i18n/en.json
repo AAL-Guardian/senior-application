@@ -1,6 +1,7 @@
 {
   "Back": "Back",
   "HomeButton": "Home",
+  "Sleep": "Sleep",
   "Home": {
     "Title": "Hello {{ clientName }}, what do you want to do today?",
     "SeeAppointments": "I want to see my appointments of today",
@@ -22,6 +23,7 @@
   "Preferences": {
     "Title": "Preferences",
     "Male": "Male",
-    "Female": "Female"
+    "Female": "Female",
+    "Test": "Test"
   }
 }
