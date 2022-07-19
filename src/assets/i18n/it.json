@@ -1,27 +1,27 @@
 {
   "Back": "Indietro",
-  "HomeButton": "Menu",
+  "HomeButton": "Home",
   "Sleep": "Dormi",
   "Home": {
     "Title": "Ciao {{ clientName }}, cosa vuoi fare oggi?",
-    "SeeAppointments": "Voglio vedere i miei appuntamenti di oggi",
+    "SeeAppointments": "Voglio controllare i miei appuntamenti di oggi",
     "ChangeVolume": "Voglio cambiare il volume di Misty",
-    "ChangePreferences": "Voglio cambiare le mie preferenze"
+    "ChangePreferences": "Voglio modificare le impostazioni"
   },
   "Question": {
-    "Confirmation": "Vuoi confermare questo rapporto?",
-    "ThankYou": "Grazie la risposta",
+    "Confirmation": "Confermi la risposta?",
+    "ThankYou": "Grazie per avermelo detto.",
     "Send": "Invia"
   },
   "Volume": {
     "Title": "Qui puoi impostare il volume di Misty",
-    "TestMessage": "Ciao {{ clientName }}"
+    "TestMessage": "Ciao {{ clientName }}!"
   },
   "Appointments": {
-    "Title": "Hai {{ appointmentsNumber }} appuntamenti in programma per oggi"
+    "Title": "Hai {{ appointmentsNumber }} appuntamenti per oggi"
   },
   "Preferences": {
-    "Title": "Preferenze",
+    "Title": "Impostazioni",
     "Male": "Uomo",
     "Female": "Donna",
     "Test": "Prova"
