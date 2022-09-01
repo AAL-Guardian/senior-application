@@ -33,7 +33,7 @@ export class ReportPageComponent implements OnInit, OnDestroy {
   fallbackFeedback?: string;
 
   constructor(
-    private reportService: ReportService,
+    public reportService: ReportService,
     private mqttService: MqttService,
     private router: Router,
     private translateService: TranslateService,
@@ -152,7 +152,14 @@ export class ReportPageComponent implements OnInit, OnDestroy {
   timeout() {
     if (this.reportSetup.start_question?.options.some(one => one.selected)) {
       this.reportService.sendAnswers(this.reportSetup, this.reportService.currentReport);
+      this.end();
+    } else {
+      this.snooze(false);
     }
+  }
+
+  snooze(withInteraction = true) {
+    this.reportService.sendSnooze(this.reportService.currentReport, withInteraction);
     this.end();
   }
 

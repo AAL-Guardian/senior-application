@@ -19,6 +19,10 @@
     </app-wrapper-body>
     <app-wrapper-footer>
       <button class="button_app greenish" (click)="next()" *ngIf="selected.length > 0">OK</button>
+      <!-- reportService.currentReport.id && -->
+      <button class="button_app" (click)="snooze()" *ngIf="
+        pastQuestions?.length === 0 &&
+        selected.length === 0">Snooze</button>
     </app-wrapper-footer>
   </ng-template>
   <ng-template [ngIf]="confirmation">

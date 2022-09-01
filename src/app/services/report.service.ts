@@ -75,4 +75,12 @@ export class ReportService {
     });
     this.endReport();
   }
+
+  sendSnooze(reportRequest: ReportRequest, withInteraction: boolean) {
+    this.mqttService.send('senior-app/snooze', {
+      reportRequest,
+      withInteraction
+    });
+    this.endReport();
+  }
 }
