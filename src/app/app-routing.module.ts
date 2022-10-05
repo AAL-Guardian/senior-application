@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { environment } from '../environments/environment';
 import { InstalledGuard } from './guards/installed.guard';
 import { NotInstalledGuard } from './guards/not-installed.guard';
 
@@ -22,7 +23,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {
-    enableTracing: true
+    enableTracing: environment.production
   })],
   exports: [RouterModule]
 })
