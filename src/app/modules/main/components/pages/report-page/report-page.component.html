@@ -23,7 +23,7 @@
       <button class="button_app" (click)="snooze()" *ngIf="
         reportService.currentReport?.remind_again_times > reportService.currentReport?.reminder_shown_times &&
         pastQuestions?.length === 0 &&
-        selected.length === 0">Snooze</button>
+        selected.length === 0">{{ 'Question.Snooze' | translate }}</button>
     </app-wrapper-footer>
   </ng-template>
   <ng-template [ngIf]="confirmation">

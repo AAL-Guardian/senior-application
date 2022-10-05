@@ -11,7 +11,8 @@
   "Question": {
     "Confirmation": "Confermi la risposta?",
     "ThankYou": "Grazie per avermelo detto.",
-    "Send": "Invia"
+    "Send": "Invia",
+    "Snooze": "Posticipa"
   },
   "Volume": {
     "Title": "Qui puoi impostare il volume di Misty",

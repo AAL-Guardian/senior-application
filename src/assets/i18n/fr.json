@@ -4,12 +4,14 @@
   "Home": {
     "Title": "Bonjour {{ clientName }}, que veux-tu faire aujourd’hui?",
     "SeeAppointments": "Consulter mes rendez-vous d’aujourd’hui",
-    "ChangeVolume": "Régler le volume de Misty"
+    "ChangeVolume": "Régler le volume de Misty",
+    "ChangePreferences": "Je veux changer les paramètres"
   },
   "Question": {
     "Confirmation": "Je vous remercie de m’en avoir informé.",
     "ThankYou": "Merci pour ce rapport",
-    "Send": "Envoyer"
+    "Send": "Envoyer",
+    "Snooze": "Roupillon"
   },
   "Volume": {
     "Title": "Ici vous pouvez jauger le volume de Misty",

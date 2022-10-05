@@ -11,7 +11,8 @@
   "Question": {
     "Confirmation": "Do you want to confirm this report?",
     "ThankYou": "Thank you for letting me know",
-    "Send": "Send"
+    "Send": "Send",
+    "Snooze": "Snooze"
   },
   "Volume": {
     "Title": "Here you can set the volume of Misty",

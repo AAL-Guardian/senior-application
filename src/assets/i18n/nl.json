@@ -11,7 +11,8 @@
   "Question": {
     "Confirmation": "Wilt u deze rapportage bevestigen?",
     "ThankYou": "Bedankt dat u het me laat weten.",
-    "Send": "Verzenden"
+    "Send": "Verzenden",
+    "Snooze": "Doze"
   },
   "Volume": {
     "Title": "Hier kunt u het volume van Misty instellen",
